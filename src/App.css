@@ -1,0 +1,33 @@
+/* src/App.css */
+
+/* 1. Brauzerin bütün elementlərə verdiyi standart boşluqları sıfırlayırıq */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Saytın tam kənarlarındakı ağ boşluqları və sağa sürüşməni kökündən həll edirik */
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Sağa daşma xətasını tamamilə bağlayır */
+  background-color: #f8f9fa; /* Bütün saytın fonunu təmiz açıq rəng edir */
+}
+
+/* 3. App.jsx-dəki əsas bürüyücü qutu */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8f9fa;
+}
+
+/* Navbar və Footer arasındakı əsas səhifə məzmunu */
+main {
+  flex: 1; /* Kontent az olsa belə Footeri avtomatik səhifənin ən aşağısına sıxır */
+  width: 100%;
+}

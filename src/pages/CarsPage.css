@@ -1,85 +1,345 @@
-.cars-page {
-  padding: 40px;
+.cars-page-container {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 40px 5%;
+  font-family: 'Inter', sans-serif;
 }
 
-.filters {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.filters button {
-  padding: 8px 20px;
-  border: 2px solid #1a1a2e;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.filters button:hover {
-  background: #1a1a2e;
-  color: white;
-}
-
-.cars-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.car-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.car-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.car-info {
-  padding: 16px;
-}
-
-.car-info h3 {
-  margin: 0 0 8px;
-  font-size: 18px;
-}
-
-.car-info p {
-  margin: 0 0 6px;
-  color: #666;
-  font-size: 14px;
-}
-
-.car-bottom {
+/* Səhifə Başlığı */
+.cars-page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 24px;
 }
 
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #1a1a2e;
+.cars-page-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
 }
 
-.available {
-  background: #e0f7e9;
-  color: #2e7d32;
-  padding: 4px 10px;
+.cars-page-header h2 span {
+  color: #f5a623;
+}
+
+.cars-page-header p {
+  color: #888888;
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Əsas Layout Modeli */
+.cars-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Sol Tərəf Filter Paneli (Sidebar) */
+.filter-sidebar {
+  width: 280px;
+  background: #121212;
+  border: 1px solid #1f1f1f;
+  border-radius: 16px;
+  padding: 24px;
+  position: sticky;
+  top: 100px; /* Navbar-dan aşağıda qalması üçün */
+}
+
+.filter-section {
+  margin-bottom: 32px;
+}
+
+.filter-section h3 {
+  font-size: 16px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.filter-buttons-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-sidebar-btn {
+  background: #1a1a1a;
+  border: 1px solid #262626;
+  color: #aaaaaa;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.filter-sidebar-btn:hover {
+  border-color: #f5a623;
+  color: #ffffff;
+}
+
+.filter-sidebar-btn.active {
+  background: #f5a623;
+  color: #000000;
+  border-color: #f5a623;
+  font-weight: 700;
+}
+
+/* Slider (Qiymət Filteri) Stili */
+.price-slider-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #262626;
+  border-radius: 3px;
+  outline: none;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f5a623;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.price-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666666;
+}
+
+.current-filter-price {
+  color: #f5a623;
+  font-weight: 600;
+}
+
+/* Sağ Tərəf Maşın Siyahısı */
+.cars-main-content {
+  flex: 1;
+}
+
+.results-count {
+  font-size: 14px;
+  color: #888888;
+  margin-bottom: 20px;
+}
+
+/* Müasir Maşın Grid-i */
+.cars-grid-modern {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 30px;
+}
+
+/* Maşın Kartı Stili */
+.car-card-modern {
+  background: #121212;
+  border: 1px solid #1f1f1f;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card-modern:hover {
+  transform: translateY(-6px);
+  border-color: #333333;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.car-card-hero {
+  position: relative;
+  background: #1a1a1a;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.car-img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain; /* Transparant maşın şəkilləri üçün əla görünür */
+  transition: transform 0.3s;
+}
+
+.car-card-modern:hover .car-img {
+  transform: scale(1.04);
+}
+
+.status-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.unavailable {
-  background: #fdecea;
-  color: #c62828;
-  padding: 4px 10px;
-  border-radius: 20px;
+.status-badge.available {
+  background: rgba(46, 125, 50, 0.15);
+  color: #4caf50;
+  border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+.status-badge.unavailable {
+  background: rgba(244, 67, 54, 0.15);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Kartın daxili məlumatları */
+.car-card-details {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.car-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.car-title-row h3 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.car-title-row h3 span {
+  font-weight: 400;
+  color: #aaaaaa;
+}
+
+.car-year-tag {
+  background: #1a1a1a;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-size: 12px;
+  color: #888888;
+  border: 1px solid #262626;
+}
+
+/* Kiçik Spesifikasiya Grid-i */
+.car-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #888888;
+}
+
+.spec-icon {
+  font-size: 16px;
+  color: #f5a623;
+}
+
+/* Kartın Alt Hissəsi - Qiymət və Düymə */
+.car-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.currency-symbol {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f5a623;
+  margin-right: 2px;
+}
+
+.price-amount {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.price-period {
+  font-size: 13px;
+  color: #666666;
+  margin-left: 4px;
+}
+
+.book-now-btn {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.car-card-modern:hover .book-now-btn {
+  background: #f5a623;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px;
+  color: #666666;
+  font-size: 16px;
+}
+
+/* Responsive Dizayn */
+@media (max-width: 992px) {
+  .cars-layout {
+    flex-direction: column;
+  }
+  .filter-sidebar {
+    width: 100%;
+    position: static;
+  }
 }

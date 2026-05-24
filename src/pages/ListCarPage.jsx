@@ -1,7 +1,11 @@
-import { useState } from 'react'
-import './ListCarPage.css'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './ListCarPage.css';
 
-function ListCarPage() {
+function ListCarPage({ addCar }) {
+  const navigate = useNavigate()
+
+  // Form state
   const [form, setForm] = useState({
     brand: '',
     model: '',
@@ -16,149 +20,224 @@ function ListCarPage() {
 
   const [submitted, setSubmitted] = useState(false)
 
+  // Səhifə yüklənəndə yuxarı qalxması üçün
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
   function handleSubmit(e) {
     e.preventDefault()
+    addCar({
+      ...form,
+      id: Date.now(), // Test üçün unikal ID
+      year: parseInt(form.year),
+      seats: parseInt(form.seats),
+      pricePerDay: parseInt(form.pricePerDay),
+      available: true
+    })
+    setForm({
+      ...form,
+      year: parseInt(form.year),
+      seats: parseInt(form.seats),
+      pricePerDay: parseInt(form.pricePerDay)
+    })
     setSubmitted(true)
   }
 
+  function handleReset() {
+    setForm({
+      brand: '',
+      model: '',
+      year: '',
+      category: '',
+      transmission: '',
+      seats: '',
+      pricePerDay: '',
+      image: '',
+      description: '',
+    })
+    setSubmitted(false)
+  }
+
+  // Uğurlu Göndərmə Ekranı (Success Preview)
   if (submitted) {
     return (
-      <div className="listcar-page">
-        <div className="success-box">
-          <h2>Listing Submitted!</h2>
-          <p>Your {form.brand} {form.model} has been listed successfully.</p>
-          <button onClick={() => setSubmitted(false)}>Add Another Car</button>
+      <div className="listcar-page-container">
+        <div className="success-preview-wrapper">
+          <div className="success-badge-badge">✓</div>
+          <h2>Listing Successfully Submitted!</h2>
+          <p className="success-sub">Your vehicle has been added to NexRide database and is now undergoing instant host verification.</p>
+          
+          {/* CANLI MAŞIN PREVIEW KARTI */}
+          <div className="live-preview-card">
+            <span className="live-verification-status">● Awaiting Host Verification</span>
+            <div className="preview-car-image">
+              <img src={form.image || 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80'} alt="Car Preview" />
+            </div>
+            <div className="preview-car-details">
+              <div className="preview-title-row">
+                <h3>{form.brand} <span>{form.model}</span></h3>
+                <span className="preview-year">{form.year}</span>
+              </div>
+              <div className="preview-meta-row">
+                <span>⚙ {form.transmission}</span>
+                <span>💺 {form.seats} Seats</span>
+                <span>📁 {form.category}</span>
+              </div>
+              <div className="preview-price">
+                <strong>${form.pricePerDay}</strong><span>/day</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="success-action-buttons">
+            <button className="cta-all-fleet" onClick={() => navigate('/cars')}>
+              Go to Fleet Directory
+            </button>
+            <button className="cta-add-another" onClick={handleReset}>
+              List Another Vehicle
+            </button>
+          </div>
         </div>
       </div>
     )
   }
 
+  // Əsas Sadələşdirilmiş Form Ekranı
   return (
-    <div className="listcar-page">
-      <h2>List Your Car</h2>
-      <p className="subtitle">Fill in the details below to list your car for rent.</p>
+    <div className="listcar-page-container">
+      <div className="form-card-wrapper">
+        <div className="form-header-title">
+          <h2>Vehicle Information</h2>
+          <p>Please enter accurate details to ensure approval from our verification team.</p>
+        </div>
 
-      <form onSubmit={handleSubmit} className="listcar-form">
+        <form onSubmit={handleSubmit} className="premium-car-list-form">
+          <div className="form-fields-grid">
+            
+            <div className="form-input-group">
+              <label>Car Brand</label>
+              <input
+                type="text"
+                name="brand"
+                value={form.brand}
+                onChange={handleChange}
+                placeholder="e.g. Porsche"
+                required
+              />
+            </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label>Brand</label>
-            <input
-              type="text"
-              name="brand"
-              value={form.brand}
+            <div className="form-input-group">
+              <label>Car Model</label>
+              <input
+                type="text"
+                name="model"
+                value={form.model}
+                onChange={handleChange}
+                placeholder="e.g. Taycan 4S"
+                required
+              />
+            </div>
+
+            <div className="form-input-group">
+              <label>Production Year</label>
+              <input
+                type="number"
+                name="year"
+                value={form.year}
+                onChange={handleChange}
+                placeholder="e.g. 2024"
+                min="2010"
+                max="2027"
+                required
+              />
+            </div>
+
+            <div className="form-input-group">
+              <label>Body Category</label>
+              <select name="category" value={form.category} onChange={handleChange} required>
+                <option value="">Select category...</option>
+                <option value="Sedan">Sedan</option>
+                <option value="SUV">SUV</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Convertible">Convertible</option>
+                <option value="Electric">Electric</option>
+              </select>
+            </div>
+
+            <div className="form-input-group">
+              <label>Transmission</label>
+              <select name="transmission" value={form.transmission} onChange={handleChange} required>
+                <option value="">Select transmission...</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+              </select>
+            </div>
+
+            <div className="form-input-group">
+              <label>Seats Capacity</label>
+              <input
+                type="number"
+                name="seats"
+                value={form.seats}
+                onChange={handleChange}
+                placeholder="e.g. 4"
+                min="2"
+                max="8"
+                required
+              />
+            </div>
+
+            <div className="form-input-group">
+              <label>Daily Price Target ($)</label>
+              <input
+                type="number"
+                name="pricePerDay"
+                value={form.pricePerDay}
+                onChange={handleChange}
+                placeholder="e.g. 150"
+                min="10"
+                required
+              />
+            </div>
+
+            <div className="form-input-group">
+              <label>Image URL</label>
+              <input
+                type="text"
+                name="image"
+                value={form.image}
+                onChange={handleChange}
+                placeholder="https://images.unsplash.com/..."
+                required
+              />
+            </div>
+
+          </div>
+
+          <div className="form-textarea-group">
+            <label>Vehicle Description & Key Amenities</label>
+            <textarea
+              name="description"
+              value={form.description}
               onChange={handleChange}
-              placeholder="Toyota"
+              placeholder="Highlight your car's special features, premium upgrades, or modifications..."
+              rows="4"
               required
             />
           </div>
 
-          <div className="form-group">
-            <label>Model</label>
-            <input
-              type="text"
-              name="model"
-              value={form.model}
-              onChange={handleChange}
-              placeholder="Camry"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Year</label>
-            <input
-              type="number"
-              name="year"
-              value={form.year}
-              onChange={handleChange}
-              placeholder="2022"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Category</label>
-            <select name="category" value={form.category} onChange={handleChange} required>
-              <option value="">-- Select --</option>
-              <option value="Sedan">Sedan</option>
-              <option value="SUV">SUV</option>
-              <option value="Hatchback">Hatchback</option>
-              <option value="Convertible">Convertible</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Transmission</label>
-            <select name="transmission" value={form.transmission} onChange={handleChange} required>
-              <option value="">-- Select --</option>
-              <option value="Automatic">Automatic</option>
-              <option value="Manual">Manual</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Seats</label>
-            <input
-              type="number"
-              name="seats"
-              value={form.seats}
-              onChange={handleChange}
-              placeholder="5"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label>Price Per Day ($)</label>
-          <input
-            type="number"
-            name="pricePerDay"
-            value={form.pricePerDay}
-            onChange={handleChange}
-            placeholder="45"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Image URL</label>
-          <input
-            type="text"
-            name="image"
-            value={form.image}
-            onChange={handleChange}
-            placeholder="https://..."
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            placeholder="Tell us about your car..."
-            rows="4"
-            required
-          />
-        </div>
-
-        <button type="submit">Submit Listing</button>
-
-      </form>
+          <button type="submit" className="submit-listing-btn">
+            Publish Your Listing
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
 
-export default ListCarPage
+export default ListCarPage;
