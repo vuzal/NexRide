@@ -4,24 +4,16 @@ import './HomePage.css'
 
 function HomePage() {
   const navigate = useNavigate()
-  
-  // Axtarış üçün sadə state-lər
-  const [searchParams, setSearchParams] = useState({
-    location: '',
-    pickupDate: '',
-    dropoffDate: ''
-  })
+  const [searchTerm, setSearchTerm] = useState('')
 
   const handleSearch = (e) => {
     e.preventDefault()
-    // Axtarış parametrlərini /cars səhifəsinə query string kimi ötürə bilərik
-    navigate(`/cars?location=${searchParams.location}&pickup=${searchParams.pickupDate}&dropoff=${searchParams.dropoffDate}`)
+    navigate(`/cars?search=${encodeURIComponent(searchTerm)}`)
   }
 
   return (
     <div className="home-page">
-      
-      {/* Hero Section */}
+
       <div className="hero-section">
         <div className="hero-content">
           <h1>Premium Cars.<br /><span>Instant Booking.</span></h1>
@@ -29,73 +21,113 @@ function HomePage() {
           <button className="hero-cta" onClick={() => navigate('/cars')}>Explore Fleet</button>
         </div>
         <div className="hero-image-container">
-          {/* Bura qəşəng, tünd arxa fona uyğun bir idman və ya lüks maşın şəkli qoyulacaq */}
-          <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80" alt="Luxury Car" className="hero-car-img" />
+          <img
+            src="https://i.pinimg.com/1200x/d3/27/b5/d327b50debe40fd7d46ff654de794e6c.jpg"
+            alt="Premium Car"
+            className="hero-car-img"
+          />
         </div>
       </div>
 
-      {/* Booking Search Bar Section */}
       <div className="search-container">
-        <form className="search-bar" onSubmit={handleSearch}>
-          <div className="search-group">
-            <label>Pick-up Location</label>
-            <select 
-              value={searchParams.location} 
-              onChange={(e) => setSearchParams({...searchParams, location: e.target.value})}
-              required
-            >
-              <option value="">Select City...</option>
-              <option value="baku">Baku</option>
-              <option value="ganja">Ganja</option>
-              <option value="gabala">Gabala</option>
-            </select>
-          </div>
-          
-          <div className="search-group">
-            <label>Pick-up Date</label>
-            <input 
-              type="date" 
-              value={searchParams.pickupDate}
-              onChange={(e) => setSearchParams({...searchParams, pickupDate: e.target.value})}
+        <form className="search-bar-single" onSubmit={handleSearch}>
+          <div className="search-input-wrapper">
+            <input
+              type="text"
+              placeholder="Search by car brand or model (e.g. BMW, Tesla...)"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               required
             />
           </div>
-
-          <div className="search-group">
-            <label>Drop-off Date</label>
-            <input 
-              type="date" 
-              value={searchParams.dropoffDate}
-              onChange={(e) => setSearchParams({...searchParams, dropoffDate: e.target.value})}
-              required
-            />
-          </div>
-
-          <button type="submit" className="search-btn">Find a Car</button>
+          <button type="submit" className="search-btn-single">Find a Car</button>
         </form>
       </div>
 
-      {/* Features Section */}
+      <div className="stats-section">
+        <div className="stats-grid">
+          <div className="stat-card">
+            <h2>500+</h2>
+            <p>Premium Cars</p>
+          </div>
+          <div className="stat-card">
+            <h2>50K+</h2>
+            <p>Happy Clients</p>
+          </div>
+          <div className="stat-card">
+            <h2>4.9★</h2>
+            <p>Rating</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="testimonials-section">
+        <div className="testimonials-header">
+          <h2>What Our Clients Say</h2>
+          <p>Real experiences from real customers</p>
+        </div>
+
+        <div className="testimonials-grid">
+          <div className="testimonial-card">
+            <div className="rating-stars">★★★★★</div>
+            <p className="testimonial-text">
+              "Absolutely flawless experience. The BMW X7 was immaculate, and the service was top-notch. Will definitely use again!"
+            </p>
+            <div className="client-profile">
+              <div className="client-avatar color-s">S</div>
+              <div className="client-info">
+                <h4>Sarah Johnson</h4>
+                <span>Business Executive</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="rating-stars">★★★★★</div>
+            <p className="testimonial-text">
+              "Booked a Porsche for a special weekend. Everything was seamless from booking to return. Highly recommend NexRide!"
+            </p>
+            <div className="client-profile">
+              <div className="client-avatar color-m">M</div>
+              <div className="client-info">
+                <h4>Michael Chen</h4>
+                <span>Entrepreneur</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="rating-stars">★★★★★</div>
+            <p className="testimonial-text">
+              "The Tesla Model S was incredible. Easy booking process and excellent customer service. Made my trip unforgettable!"
+            </p>
+            <div className="client-profile">
+              <div className="client-avatar color-e">E</div>
+              <div className="client-info">
+                <h4>Emma Williams</h4>
+                <span>Travel Blogger</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="features-section">
         <h2 className="section-title">Why Choose <span>NexRide</span></h2>
         <div className="features-grid">
           <div className="feature-card">
-            <div className="feature-icon">✦</div>
             <h3>Wide Selection</h3>
             <p>From track-ready sports cars to spacious luxury SUVs, find the perfect match for your vibe.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">✦</div>
             <h3>Easy Booking</h3>
             <p>No endless paperwork. Smart interfaces mean you are approved and ready to roll in minutes.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">✦</div>
             <h3>Best Prices</h3>
             <p>Transparent pricing with zero hidden fees. Premium experience that respects your budget.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">✦</div>
             <h3>List Your Car</h3>
             <p>Turn your idle asset into a cash machine. List on NexRide and let your car work for you.</p>
           </div>
