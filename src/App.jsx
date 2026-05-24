@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import CarsPage from './pages/CarsPage'
 import CarDetailPage from './pages/CarDetailPage'
@@ -15,6 +16,7 @@ function App() {
         <Route path="/cars/:id" element={<CarDetailPage />} />
         <Route path="/list-car" element={<ListCarPage />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }
