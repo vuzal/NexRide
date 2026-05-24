@@ -6,40 +6,22 @@ function Footer() {
     <footer className="footer">
       <div className="footer-top">
         
-        {/* Sütun 1: Brend məlumatı */}
         <div className="footer-column footer-brand">
           <h3>Nex<span>Ride</span></h3>
           <p className="brand-description">
             Experience the ultimate convenience in car rentals. Elite vehicles, transparent pricing, and instant booking at your fingertips.
           </p>
-          <div className="footer-socials">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-x-twitter"></i>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-          </div>
         </div>
 
-        {/* Sütun 2: Sürətli keçidlər */}
         <div className="footer-column">
           <h4>Quick Links</h4>
           <div className="footer-links-list">
             <Link to="/">Home</Link>
             <Link to="/cars">Explore Fleet</Link>
             <Link to="/list-car">List Your Car</Link>
-            <Link to="/about">About Us</Link>
           </div>
         </div>
 
-        {/* Sütun 3: Kateqoriyalar */}
         <div className="footer-column">
           <h4>Our Fleet</h4>
           <div className="footer-links-list">
@@ -50,7 +32,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Sütun 4: Əlaqə */}
         <div className="footer-column footer-contact">
           <h4>Contact Us</h4>
           <div className="contact-info-list">
@@ -71,7 +52,6 @@ function Footer() {
 
       </div>
 
-      {/* Alt hissə - Müəllif hüquqları və sənədlər */}
       <div className="footer-bottom">
         <p className="copyright">© 2026 NexRide. All rights reserved.</p>
         <div className="footer-bottom-links">
