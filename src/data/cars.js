@@ -8,6 +8,8 @@ const cars = [
     pricePerDay: 45,
     seats: 5,
     transmission: "Automatic",
+    fuel: "Petrol",
+    horsepower: 203,
     available: true,
     image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600"
   },
@@ -20,6 +22,8 @@ const cars = [
     pricePerDay: 85,
     seats: 5,
     transmission: "Automatic",
+    fuel: "Diesel",
+    horsepower: 340,
     available: true,
     image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600"
   },
@@ -32,6 +36,8 @@ const cars = [
     pricePerDay: 75,
     seats: 5,
     transmission: "Automatic",
+    fuel: "Petrol",
+    horsepower: 197,
     available: true,
     image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600"
   },
@@ -44,6 +50,8 @@ const cars = [
     pricePerDay: 55,
     seats: 5,
     transmission: "Automatic",
+    fuel: "Diesel",
+    horsepower: 186,
     available: true,
     image: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=600"
   },
@@ -56,6 +64,8 @@ const cars = [
     pricePerDay: 50,
     seats: 5,
     transmission: "Manual",
+    fuel: "Petrol",
+    horsepower: 154,
     available: false,
     image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600"
   },
@@ -68,8 +78,24 @@ const cars = [
     pricePerDay: 40,
     seats: 5,
     transmission: "Manual",
+    fuel: "Diesel",
+    horsepower: 150,
     available: true,
     image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600"
+  },
+  {
+    id: 7,
+    brand: "Tesla",
+    model: "Model 3",
+    year: 2023,
+    category: "Electric",
+    pricePerDay: 95,
+    seats: 5,
+    transmission: "Automatic",
+    fuel: "Electric",
+    horsepower: 358,
+    available: true,
+    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600"
   }
 ]
 

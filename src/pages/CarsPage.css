@@ -1,53 +1,66 @@
 .cars-page-container {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: #f8fafc;
   min-height: 100vh;
-  padding: 40px 5%;
-  font-family: 'Inter', sans-serif;
+  padding: 48px 5% 100px 5%;
+  font-family: 'Inter', -apple-system, sans-serif;
 }
 
-/* Səhifə Başlığı */
 .cars-page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-  border-bottom: 1px solid #1a1a1a;
-  padding-bottom: 24px;
+  align-items: flex-end;
+  margin-bottom: 48px;
+}
+
+.header-eyebrow {
+  font-size: 13px;
+  color: #f5a623;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin: 0 0 8px;
 }
 
 .cars-page-header h2 {
   font-size: 36px;
   font-weight: 800;
-  margin: 0 0 8px 0;
+  color: #0f172a;
+  margin: 0;
 }
 
 .cars-page-header h2 span {
   color: #f5a623;
 }
 
-.cars-page-header p {
-  color: #888888;
-  margin: 0;
-  font-size: 15px;
-}
-
-/* Əsas Layout Modeli */
 .cars-layout {
   display: flex;
-  gap: 40px;
+  gap: 32px;
   align-items: flex-start;
 }
 
-/* Sol Tərəf Filter Paneli (Sidebar) */
 .filter-sidebar {
-  width: 280px;
-  background: #121212;
-  border: 1px solid #1f1f1f;
+  width: 260px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 24px;
+  padding: 28px 20px;
   position: sticky;
-  top: 100px; /* Navbar-dan aşağıda qalması üçün */
+  top: 100px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  color: #0f172a;
+}
+
+.sidebar-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
 }
 
 .filter-section {
@@ -55,229 +68,221 @@
 }
 
 .filter-section h3 {
-  font-size: 16px;
-  color: #ffffff;
+  font-size: 11px;
+  color: #94a3b8;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin: 0 0 14px;
 }
 
 .filter-buttons-stack {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .filter-sidebar-btn {
-  background: #1a1a1a;
-  border: 1px solid #262626;
-  color: #aaaaaa;
-  padding: 12px 16px;
-  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  padding: 10px 12px;
+  border-radius: 10px;
   text-align: left;
   font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .filter-sidebar-btn:hover {
-  border-color: #f5a623;
-  color: #ffffff;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .filter-sidebar-btn.active {
   background: #f5a623;
-  color: #000000;
-  border-color: #f5a623;
+  color: #0f0f0f;
   font-weight: 700;
 }
 
-/* Slider (Qiymət Filteri) Stili */
-.price-slider-wrapper {
+.cat-icon {
+  font-size: 16px;
+}
+
+.cat-count {
+  margin-left: auto;
+  font-size: 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.filter-sidebar-btn.active .cat-count {
+  background: rgba(0, 0, 0, 0.1);
+  color: #0f0f0f;
+}
+
+.availability-row {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.custom-slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  background: #262626;
-  border-radius: 3px;
-  outline: none;
-}
-
-.custom-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #f5a623;
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-
-.custom-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-.price-slider-labels {
-  display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
-  color: #666666;
+  color: #64748b;
+  margin-bottom: 10px;
 }
 
-.current-filter-price {
-  color: #f5a623;
-  font-weight: 600;
+.avail-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 
-/* Sağ Tərəf Maşın Siyahısı */
+.avail-dot.green {
+  background: #22c55e;
+}
+
+.avail-dot.red {
+  background: #ef4444;
+}
+
 .cars-main-content {
   flex: 1;
+  min-width: 0;
 }
 
-.results-count {
-  font-size: 14px;
-  color: #888888;
-  margin-bottom: 20px;
+.results-bar {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 24px;
 }
 
-/* Müasir Maşın Grid-i */
-.cars-grid-modern {
+.cars-grid-pro {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
-/* Maşın Kartı Stili */
-.car-card-modern {
-  background: #121212;
-  border: 1px solid #1f1f1f;
+.car-card-pro {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: transform 0.25s ease;
   display: flex;
   flex-direction: column;
 }
 
-.car-card-modern:hover {
+.car-card-pro:hover {
   transform: translateY(-6px);
-  border-color: #333333;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border-color: #f5a623;
+  box-shadow: 0 16px 40px rgba(245, 166, 35, 0.12);
 }
 
 .car-card-hero {
   position: relative;
-  background: #1a1a1a;
-  padding: 10px;
+  height: 210px;
+  overflow: hidden;
+}
+
+
+.hero-badges {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  z-index: 2;
+}
+
+.badge-avail {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-avail.available {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-avail.unavailable {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-rating {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
 }
 
 .car-img {
   width: 100%;
-  height: 180px;
-  object-fit: contain; /* Transparant maşın şəkilləri üçün əla görünür */
-  transition: transform 0.3s;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  z-index: 1;
+  position: relative;
 }
 
-.car-card-modern:hover .car-img {
-  transform: scale(1.04);
+.car-card-pro:hover .car-img {
+  transform: scale(1.06);
 }
 
-.status-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  padding: 4px 12px;
-  border-radius: 20px;
+.car-card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.car-category-label {
   font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-badge.available {
-  background: rgba(46, 125, 50, 0.15);
-  color: #4caf50;
-  border: 1px solid rgba(46, 125, 50, 0.3);
-}
-
-.status-badge.unavailable {
-  background: rgba(244, 67, 54, 0.15);
-  color: #f44336;
-  border: 1px solid rgba(244, 67, 54, 0.3);
-}
-
-/* Kartın daxili məlumatları */
-.car-card-details {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.car-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.car-title-row h3 {
-  font-size: 20px;
-  margin: 0;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.car-title-row h3 span {
-  font-weight: 400;
-  color: #aaaaaa;
-}
-
-.car-year-tag {
-  background: #1a1a1a;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #888888;
-  border: 1px solid #262626;
-}
-
-/* Kiçik Spesifikasiya Grid-i */
-.car-specs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 16px 0;
-  border-top: 1px solid #1a1a1a;
-  border-bottom: 1px solid #1a1a1a;
-  margin-bottom: 20px;
-}
-
-.spec-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: #888888;
-}
-
-.spec-icon {
-  font-size: 16px;
   color: #f5a623;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-/* Kartın Alt Hissəsi - Qiymət və Düymə */
+.car-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 18px;
+}
+
+.car-specs-row {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 18px;
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
 .car-card-footer {
   display: flex;
   justify-content: space-between;
@@ -287,59 +292,109 @@
 
 .price-block {
   display: flex;
-  align-items: baseline;
-  gap: 2px;
-}
-
-.currency-symbol {
-  font-size: 16px;
-  font-weight: 600;
-  color: #f5a623;
-  margin-right: 2px;
+  flex-direction: column;
 }
 
 .price-amount {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
+}
+
+.currency {
+  font-size: 14px;
+  color: #f5a623;
 }
 
 .price-period {
-  font-size: 13px;
-  color: #666666;
-  margin-left: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
 }
 
-.book-now-btn {
-  background: #ffffff;
-  color: #000000;
+.view-details-btn {
+  background: #f5a623;
+  color: #0f0f0f;
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 
-.car-card-modern:hover .book-now-btn {
-  background: #f5a623;
+.view-details-btn:hover {
+  background: #e09510;
 }
 
 .no-results {
   text-align: center;
-  padding: 60px;
-  color: #666666;
+  padding: 80px;
+  color: #94a3b8;
   font-size: 16px;
 }
 
-/* Responsive Dizayn */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 48px;
+}
+
+.page-btn {
+  padding: 10px 18px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #64748b;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: #f5a623;
+  color: #f5a623;
+}
+
+.page-btn.active {
+  background: #f5a623;
+  border-color: #f5a623;
+  color: #0f0f0f;
+  font-weight: 700;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 @media (max-width: 992px) {
   .cars-layout {
     flex-direction: column;
   }
+
   .filter-sidebar {
     width: 100%;
     position: static;
+  }
+
+  .filter-buttons-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .filter-sidebar-btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .cat-count {
+    display: none;
   }
 }

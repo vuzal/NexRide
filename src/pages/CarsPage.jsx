@@ -4,10 +4,12 @@ import CurrencySelector from '../components/CurrencySelector'
 import './CarsPage.css'
 
 function CarsPage({ cars = [] }) {
-  const [category, setCategory] = useState('All')
-  const [priceRange, setPriceRange] = useState(500) // Maksimum qiymət filteri üçün
+  const [category, setCategory] = useState('All Cars')
   const [currency, setCurrency] = useState('USD')
   const [rate, setRate] = useState(1)
+  const [sortBy, setSortBy] = useState('default')
+  const [currentPage, setCurrentPage] = useState(1)
+  const carsPerPage = 6
   const navigate = useNavigate()
 
   function handleRateChange(selectedCurrency, selectedRate) {
@@ -15,22 +17,45 @@ function CarsPage({ cars = [] }) {
     setRate(selectedRate)
   }
 
-  // Filtrasiya məntiqi (Həm kateqoriya, həm də konvertasiya olunmuş qiymətə görə)
+  function handleCategoryChange(cat) {
+    setCategory(cat)
+    setCurrentPage(1)
+  }
+
+  const categories = [
+    { label: 'All Cars', icon: '🚗' },
+    { label: 'Sedan', icon: '🚙' },
+    { label: 'SUV', icon: '🛻' },
+    { label: 'Hatchback', icon: '🚘' },
+    { label: 'Electric', icon: '⚡' },
+  ]
+
   const filtered = cars.filter(car => {
-    const matchesCategory = category === 'All' || car.category === category
-    const currentPrice = car.pricePerDay * rate
-    const matchesPrice = currentPrice <= priceRange * rate // Valyutaya uyğunlaşdırılmış filter
-    return matchesCategory && matchesPrice
+    if (category === 'All Cars') return true
+    return car.category === category
   })
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'price-asc') return a.pricePerDay - b.pricePerDay
+    if (sortBy === 'price-desc') return b.pricePerDay - a.pricePerDay
+    if (sortBy === 'popular') return b.horsepower - a.horsepower
+    return 0
+  })
+
+  const totalPages = Math.ceil(sorted.length / carsPerPage)
+  const startIndex = (currentPage - 1) * carsPerPage
+  const currentCars = sorted.slice(startIndex, startIndex + carsPerPage)
+  const pageNumbers = []
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i)
+  }
+
 
   return (
     <div className="cars-page-container">
-      
-      {/* Üst Başlıq və Valyuta Seçimi */}
       <div className="cars-page-header">
         <div>
-          <h2>Explore Our <span>Elite Fleet</span></h2>
-          <p>Find the perfect ride tailored for your next journey.</p>
+          <p className="header-eyebrow">Our Collection</p>
+          <h2>Find Your <span>Perfect Car</span></h2>
         </div>
         <div className="header-actions">
           <CurrencySelector onRateChange={handleRateChange} />
@@ -38,105 +63,167 @@ function CarsPage({ cars = [] }) {
       </div>
 
       <div className="cars-layout">
-        
-        {/* Sol Tərəf - Müasir Filter Paneli */}
+
         <aside className="filter-sidebar">
+          <div className="sidebar-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            <h2>Filters</h2>
+          </div>
+
           <div className="filter-section">
-            <h3>Categories</h3>
+            <h3>Category</h3>
             <div className="filter-buttons-stack">
-              {['All', 'Sedan', 'SUV', 'Hatchback'].map((cat) => (
+              {categories.map((cat) => (
                 <button
-                  key={cat}
-                  className={`filter-sidebar-btn ${category === cat ? 'active' : ''}`}
-                  onClick={() => setCategory(cat)}
+                  key={cat.label}
+                  className={`filter-sidebar-btn ${category === cat.label ? 'active' : ''}`}
+                  onClick={() => handleCategoryChange(cat.label)}
                 >
-                  {cat}
+                  <span className="cat-icon">{cat.icon}</span>
+                  {cat.label}
+                  <span className="cat-count">
+                    {cat.label === 'All Cars'
+                      ? cars.length
+                      : cars.filter(c => c.category === cat.label).length}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
 
           <div className="filter-section">
-            <h3>Max Price Per Day</h3>
-            <div className="price-slider-wrapper">
-              <input 
-                type="range" 
-                min="30" 
-                max="500" 
-                value={priceRange} 
-                onChange={(e) => setPriceRange(Number(e.target.value))}
-                className="custom-slider"
-              />
-              <div className="price-slider-labels">
-                <span>{currency} {(30 * rate).toFixed(0)}</span>
-                <span className="current-filter-price">{currency} {(priceRange * rate).toFixed(0)}</span>
-              </div>
+            <h3>Sort By</h3>
+            <div className="filter-buttons-stack">
+              <button
+                className={`filter-sidebar-btn ${sortBy === 'default' ? 'active' : ''}`}
+                onClick={() => { setSortBy('default'); setCurrentPage(1) }}
+              >
+                <span className="cat-icon">🔀</span>
+                Default
+              </button>
+              <button
+                className={`filter-sidebar-btn ${sortBy === 'popular' ? 'active' : ''}`}
+                onClick={() => { setSortBy('popular'); setCurrentPage(1) }}
+              >
+                <span className="cat-icon">🔥</span>
+                Most Popular
+              </button>
+              <button
+                className={`filter-sidebar-btn ${sortBy === 'price-asc' ? 'active' : ''}`}
+                onClick={() => { setSortBy('price-asc'); setCurrentPage(1) }}
+              >
+                <span className="cat-icon">↑</span>
+                Price: Low to High
+              </button>
+              <button
+                className={`filter-sidebar-btn ${sortBy === 'price-desc' ? 'active' : ''}`}
+                onClick={() => { setSortBy('price-desc'); setCurrentPage(1) }}
+              >
+                <span className="cat-icon">↓</span>
+                Price: High to Low
+              </button>
             </div>
           </div>
         </aside>
 
-        {/* Sağ Tərəf - Maşın Şəbəkəsi */}
         <main className="cars-main-content">
-          <div className="results-count">
-            Showing {filtered.length} cars available for rent
+          <div className="results-bar">
+            <span>{filtered.length} cars found</span>
           </div>
 
-          <div className="cars-grid-modern">
-            {filtered.map(car => (
+          <div className="cars-grid-pro">
+            {currentCars.map(car => (
               <div
-                className="car-card-modern"
+                className="car-card-pro"
                 key={car.id}
                 onClick={() => navigate(`/cars/${car.id}`)}
               >
                 <div className="car-card-hero">
+                  <div className="hero-badges">
+                    <span className={car.available ? 'badge-avail available' : 'badge-avail unavailable'}>
+                      {car.available ? '● Available' : '● Not Available'}
+                    </span>
+                    <span className="badge-rating">⭐ 4.9</span>
+                  </div>
                   <img src={car.image} alt={car.model} className="car-img" />
-                  <span className={`status-badge ${car.available ? 'available' : 'unavailable'}`}>
-                    {car.available ? '• Available' : '• Rented'}
-                  </span>
+                  <div className="card-hero-gradient"></div>
                 </div>
 
-                <div className="car-card-details">
-                  <div className="car-title-row">
-                    <h3>{car.brand} <span>{car.model}</span></h3>
-                    <span className="car-year-tag">{car.year}</span>
-                  </div>
+                <div className="car-card-body">
+                  <span className="car-category-label">{car.category}</span>
+                  <h3 className="car-title">{car.brand} {car.model}</h3>
 
-                  {/* Müasir İkon formalı detallar (CSS ilə qəşəng bəzəyəcəyik) */}
-                  <div className="car-specs-grid">
-                    <div className="spec-item">
-                      <span className="spec-icon">⚙</span>
-                      <span>{car.transmission}</span>
+                  <div className="car-specs-row">
+                    <div className="spec">
+                      <span className="spec-icon">👥</span>
+                      {car.seats} seats
                     </div>
-                    <div className="spec-item">
-                      <span className="spec-icon">💺</span>
-                      <span>{car.seats} Seats</span>
+                    <div className="spec">
+                      <span className="spec-icon">⛽</span>
+                      {car.fuel}
                     </div>
-                    <div className="spec-item">
-                      <span className="spec-icon">📁</span>
-                      <span>{car.category}</span>
+                    <div className="spec">
+                      <span className="spec-icon">⚡</span>
+                      {car.horsepower} hp
                     </div>
                   </div>
 
                   <div className="car-card-footer">
                     <div className="price-block">
-                      <span className="currency-symbol">{currency}</span>
-                      <span className="price-amount">{(car.pricePerDay * rate).toFixed(0)}</span>
-                      <span className="price-period">/ day</span>
+                      <div className="price-amount">
+                        {(car.pricePerDay * rate).toFixed(0)}
+                        <span className="currency"> {currency}</span>
+                      </div>
+                      <span className="price-period">per day</span>
                     </div>
-                    <button className="book-now-btn">Rent Now</button>
+                    <button className="view-details-btn">
+                      View Details →
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          
+
           {filtered.length === 0 && (
             <div className="no-results">
-              <p>No cars found matching your selected criteria.</p>
+              <p>No cars found in this category.</p>
             </div>
           )}
-        </main>
 
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="page-btn"
+                onClick={() => setCurrentPage(prev => prev - 1)}
+                disabled={currentPage === 1}
+              >
+                ← Prev
+              </button>
+
+              {pageNumbers.map(page => (
+                <button
+                  key={page}
+                  className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                className="page-btn"
+                onClick={() => setCurrentPage(prev => prev + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
+
+        </main>
       </div>
     </div>
   )
