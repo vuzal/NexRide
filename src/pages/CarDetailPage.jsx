@@ -11,6 +11,7 @@ function CarDetailPage({ cars = [] }) {
     name: '',
     email: '',
     phone: '',
+    pickupLocation: '',
     startDate: '',
     endDate: '',
   })
@@ -29,15 +30,15 @@ function CarDetailPage({ cars = [] }) {
   const totalDays =
     form.startDate && form.endDate
       ? Math.ceil(
-          (new Date(form.endDate) - new Date(form.startDate)) /
-            (1000 * 60 * 60 * 24)
-        )
+        (new Date(form.endDate) - new Date(form.startDate)) /
+        (1000 * 60 * 60 * 24)
+      )
       : 0
 
   const totalPrice = totalDays * car?.pricePerDay
 
   if (!car) {
-    return <div className="not-found">Car not found or loading...</div>
+    return <div className="not-found">Car not found.</div>
   }
 
   if (submitted) {
@@ -46,31 +47,32 @@ function CarDetailPage({ cars = [] }) {
         <div className="receipt-card">
           <div className="success-icon">✓</div>
           <h2>Booking Confirmed</h2>
-          <p className="success-subtitle">Your premium ride is ready for the road.</p>
-          
+          <p className="success-subtitle">Your ride is reserved and ready.</p>
           <div className="receipt-divider"></div>
-          
           <div className="receipt-details">
             <div className="receipt-row">
-              <span>Driver:</span>
+              <span>Driver</span>
               <strong>{form.name}</strong>
             </div>
             <div className="receipt-row">
-              <span>Vehicle:</span>
+              <span>Vehicle</span>
               <strong>{car.brand} {car.model}</strong>
             </div>
             <div className="receipt-row">
-              <span>Duration:</span>
-              <strong>{totalDays} Days</strong>
+              <span>Pickup</span>
+              <strong>{form.pickupLocation}</strong>
+            </div>
+            <div className="receipt-row">
+              <span>Duration</span>
+              <strong>{totalDays} days</strong>
             </div>
             <div className="receipt-row total-highlight">
-              <span>Total Paid:</span>
+              <span>Total</span>
               <strong>${totalPrice}</strong>
             </div>
           </div>
-          
           <button className="back-fleet-btn" onClick={() => navigate('/cars')}>
-            Return to Fleet
+            Back to Fleet
           </button>
         </div>
       </div>
@@ -78,116 +80,130 @@ function CarDetailPage({ cars = [] }) {
   }
 
   return (
-    <div className="car-detail-container">
-      
-      {/* Sol Sütun - Maşın Məlumatları və Qalereya */}
-      <div className="detail-main-content">
-        <button className="back-link-btn" onClick={() => navigate('/cars')}>
-          ← Back to fleet
-        </button>
-        
-        <div className="car-hero-header">
-          <span className="car-brand-label">{car.brand}</span>
-          <h1>{car.model}</h1>
-          <span className={`status-pill ${car.available ? 'online' : 'offline'}`}>
-            {car.available ? '• Available Now' : '• Fully Booked'}
-          </span>
-        </div>
+    <div className="detail-page-wrapper">
 
-        <div className="car-large-image-wrapper">
-          <img src={car.image} alt={car.model} className="car-main-view" />
-        </div>
+      <button className="back-link-btn" onClick={() => navigate('/cars')}>
+        ← Back to fleet
+      </button>
 
-        {/* Lüks Performans Göstəriciləri (Dashboard Specs) */}
-        <div className="performance-dashboard">
-          <div className="dash-card">
-            <span className="dash-icon">⚡</span>
-            <div className="dash-info">
-              <span className="dash-value">{car.transmission}</span>
-              <span className="dash-label">Gearbox</span>
-            </div>
-          </div>
-          <div className="dash-card">
-            <span className="dash-icon">💺</span>
-            <div className="dash-info">
-              <span className="dash-value">{car.seats} Persons</span>
-              <span className="dash-label">Capacity</span>
-            </div>
-          </div>
-          <div className="dash-card">
-            <span className="dash-icon">🔥</span>
-            <div className="dash-info">
-              <span className="dash-value">{car.category}</span>
-              <span className="dash-label">Class</span>
-            </div>
-          </div>
-        </div>
+      <div className="detail-main-grid">
 
-        {/* Maşın Təchizatı - Premium Amenities */}
-        <div className="car-features-description">
-          <h3>Premium Amenities Included</h3>
-          <ul className="amenities-list">
-            <li>✦ Full Insurance (CDW)</li>
-            <li>✦ Real-time GPS Navigation</li>
-            <li>✦ Apple CarPlay & Android Auto</li>
-            <li>✦ Premium Audio System</li>
-            <li>✦ 24/7 Roadside Assistance</li>
-          </ul>
-        </div>
-      </div>
+        {/* Sol tərəf */}
+        <div className="detail-left">
 
-      {/* Sağ Sütun - Sabit Qalan Rezervasiya Kartı (Sticky Sidebar) */}
-      <div className="detail-booking-sidebar">
-        <div className="sticky-booking-card">
-          <div className="sidebar-price-header">
-            <div>
-              <span className="sidebar-amount">${car.pricePerDay}</span>
-              <span className="sidebar-period">/ day</span>
-            </div>
-            <span className="tax-label">Taxes incl.</span>
+          <div className="car-image-block">
+            <img src={car.image} alt={car.model} className="car-main-image" />
           </div>
 
-          {car.available ? (
-            <form onSubmit={handleSubmit} className="premium-booking-form">
-              <div className="input-field-group">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Vüsal Abbasov"
-                  required
-                />
+          <div className="car-info-block">
+            <div className="car-info-top">
+              <div>
+                <span className="car-category-tag">{car.category} CAR</span>
+                <h1>{car.brand} {car.model}</h1>
+                <p className="car-description">
+                  The {car.brand} {car.model} delivers an exceptional driving experience
+                  combining comfort, performance and style. Perfect for any journey
+                  with {car.transmission.toLowerCase()} transmission and {car.horsepower}hp engine.
+                </p>
               </div>
-
-              <div className="input-field-group">
-                <label>Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="vusal@example.com"
-                  required
-                />
+              <div className="car-price-tag">
+                <span className="price-big">${car.pricePerDay}</span>
+                <span className="price-sub">per day</span>
               </div>
+            </div>
 
-              <div className="input-field-group">
-                <label>Phone Number</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="+994 50 000 00 00"
-                  required
-                />
+            <div className="specs-row">
+              <div className="spec-item">
+                <span className="spec-icon">👥</span>
+                <span>{car.seats} Seats</span>
               </div>
+              <div className="spec-item">
+                <span className="spec-icon">⚙️</span>
+                <span>{car.transmission}</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-icon">⛽</span>
+                <span>{car.fuel}</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-icon">⚡</span>
+                <span>{car.horsepower} hp</span>
+              </div>
+            </div>
+          </div>
 
-              <div className="date-fields-row">
-                <div className="input-field-group">
-                  <label>Start Date</label>
+          <div className="detail-bottom-grid">
+            <div className="amenities-card">
+              <h3>What's Included</h3>
+              <ul className="amenities-list">
+                <li>Full Insurance (CDW)</li>
+                <li>GPS Navigation</li>
+                <li>Apple CarPlay & Android Auto</li>
+                <li>Premium Audio System</li>
+                <li>24/7 Roadside Assistance</li>
+                <li>Free Cancellation</li>
+              </ul>
+            </div>
+
+            <div className="policy-card">
+              <h3>Rental Policy</h3>
+              <ul className="policy-list">
+                <li>
+                  <span className="policy-icon">🪪</span>
+                  <div>
+                    <strong>Valid Driver's License</strong>
+                    <p>Must be 21+ with valid license</p>
+                  </div>
+                </li>
+                <li>
+                  <span className="policy-icon">💳</span>
+                  <div>
+                    <strong>Credit Card Required</strong>
+                    <p>For security deposit authorization</p>
+                  </div>
+                </li>
+                <li>
+                  <span className="policy-icon">⏱️</span>
+                  <div>
+                    <strong>Free Cancellation</strong>
+                    <p>Cancel up to 24 hours before pickup</p>
+                  </div>
+                </li>
+                <li>
+                  <span className="policy-icon">⛽</span>
+                  <div>
+                    <strong>Full to Full Fuel Policy</strong>
+                    <p>Return the car with a full tank</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="detail-right">
+          <div className="booking-card">
+
+            <h3>Book This Car</h3>
+
+            {car.available ? (
+              <form onSubmit={handleSubmit} className="booking-form">
+
+                <div className="input-group">
+                  <label>📍 Pickup Location</label>
+                  <input
+                    type="text"
+                    name="pickupLocation"
+                    value={form.pickupLocation}
+                    onChange={handleChange}
+                    placeholder="City or Airport"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>📅 Pickup Date</label>
                   <input
                     type="date"
                     name="startDate"
@@ -196,8 +212,9 @@ function CarDetailPage({ cars = [] }) {
                     required
                   />
                 </div>
-                <div className="input-field-group">
-                  <label>End Date</label>
+
+                <div className="input-group">
+                  <label>📅 Return Date</label>
                   <input
                     type="date"
                     name="endDate"
@@ -206,40 +223,78 @@ function CarDetailPage({ cars = [] }) {
                     required
                   />
                 </div>
-              </div>
 
-              {totalDays > 0 && (
-                <div className="dynamic-checkout-invoice">
+                <div className="input-group">
+                  <label>👤 Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>✉️ Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>📞 Phone</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="+994 50 000 00 00"
+                    required
+                  />
+                </div>
+
+                <div className="invoice-box">
                   <div className="invoice-row">
-                    <span>{car.brand} x {totalDays} days</span>
-                    <span>${totalPrice}</span>
+                    <span>${car.pricePerDay} × {totalDays > 0 ? totalDays : 1} day</span>
+                    <span>${totalDays > 0 ? totalPrice : car.pricePerDay}</span>
                   </div>
                   <div className="invoice-row">
-                    <span>Security Deposit</span>
-                    <span className="free-tag">$0.00</span>
+                    <span>Insurance & fees</span>
+                    <span className="included-tag">Included</span>
                   </div>
-                  <div className="invoice-total-row">
-                    <span>Total Amount</span>
-                    <span>${totalPrice}</span>
+                  <div className="invoice-total">
+                    <strong>Total</strong>
+                    <strong className="total-price">${totalDays > 0 ? totalPrice : car.pricePerDay}</strong>
                   </div>
                 </div>
-              )}
 
-              <button type="submit" className="confirm-checkout-btn">
-                Reserve This Ride
-              </button>
-            </form>
-          ) : (
-            <div className="locked-booking-state">
-              <p>This car is currently unavailable for rent. Please browse other active elite cars in our fleet.</p>
-              <button type="button" className="locked-btn-cta" onClick={() => navigate('/cars')}>
-                Browse Other Cars
-              </button>
-            </div>
-          )}
+                <button type="submit" className="confirm-btn">
+                  Reserve Now →
+                </button>
+
+                <p className="cancel-note">🛡 Free cancellation up to 24 hours before pickup</p>
+
+              </form>
+            ) : (
+              <div className="unavailable-box">
+                <p>This car is currently unavailable.</p>
+                <button onClick={() => navigate('/cars')} className="browse-btn">
+                  Browse Other Cars
+                </button>
+              </div>
+            )}
+
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
   )
 }
