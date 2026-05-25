@@ -21,7 +21,6 @@
   padding: 0;
   margin-bottom: 24px;
   display: inline-block;
-  transition: color 0.2s;
 }
 
 .back-link-btn:hover {
@@ -190,16 +189,6 @@
   gap: 12px;
 }
 
-.policy-icon {
-  font-size: 16px;
-  background: #ffe6c6;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-}
 
 .policy-list strong {
   font-size: 13px;
@@ -224,7 +213,6 @@
   border: 1px solid #e2e8f0;
   border-radius: 20px;
   padding: 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
 }
 
 .booking-card h3 {
@@ -260,14 +248,12 @@
   color: #0f172a;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s;
   width: 100%;
 }
 
 .input-group input:focus {
   border-color: #f5a623;
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
 }
 
 .invoice-box {
@@ -322,22 +308,13 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
   margin-top: 4px;
 }
 
 .confirm-btn:hover {
   background: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(37,99,235,0.3);
 }
 
-.cancel-note {
-  font-size: 12px;
-  color: #94a3b8;
-  text-align: center;
-  margin: 0;
-}
 
 .unavailable-box {
   text-align: center;
@@ -384,7 +361,6 @@
   max-width: 440px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.08);
 }
 
 .success-icon {
@@ -464,7 +440,6 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .back-fleet-btn:hover {
@@ -491,4 +466,168 @@
   .car-main-image {
     height: 260px;
   }
+}
+
+.login-required-box {
+  text-align: center;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-required-box span {
+  font-size: 40px;
+}
+
+.login-required-box p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+
+.login-required-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.payment-page {
+  background: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  font-family: 'Inter', sans-serif;
+}
+
+.payment-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 36px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.payment-card h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 16px 0 6px;
+}
+
+.payment-subtitle {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0 0 24px;
+}
+
+.payment-summary {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.payment-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.payment-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 10px;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.payment-method-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.payment-method-btn:hover {
+  border-color: #f5a623;
+}
+
+.payment-method-btn.active {
+  border-color: #f5a623;
+  background: #fff7ed;
+}
+
+.payment-method-btn span {
+  font-size: 24px;}
+
+.payment-method-btn strong {
+  font-size: 14px;
+  color: #0f172a;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.payment-method-btn p {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.radio {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.radio.checked {
+  border-color: #f5a623;
+  background: #f5a623;
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+.card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.card-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.auth-check {
+  background: #f8fafc;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  font-family: 'Inter', sans-serif;
 }

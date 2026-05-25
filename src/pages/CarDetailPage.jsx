@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../firebase'
 import './CarDetailPage.css'
 
 function CarDetailPage({ cars = [] }) {
@@ -16,15 +18,49 @@ function CarDetailPage({ cars = [] }) {
     endDate: '',
   })
 
-  const [submitted, setSubmitted] = useState(false)
+  const [step, setStep] = useState('booking')
+  const [paymentMethod, setPaymentMethod] = useState('cash')
+  const [cardForm, setCardForm] = useState({
+    cardNumber: '',
+    cardName: '',
+    expiry: '',
+    cvv: '',
+  })
+  const [user, setUser] = useState(null)
+  const [checkingAuth, setCheckingAuth] = useState(true)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setCheckingAuth(false)
+    })
+    return () => unsubscribe()
+  }, [])
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    const updatedForm = { ...form };
+    updatedForm[inputName] = inputValue;
+    setForm(updatedForm);
   }
 
-  function handleSubmit(e) {
+  function handleCardChange(e) {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    const updatedCardForm = { ...cardForm };
+    updatedCardForm[inputName] = inputValue;
+    setCardForm(updatedCardForm);
+  }
+
+  function handleBookingSubmit(e) {
     e.preventDefault()
-    setSubmitted(true)
+    setStep('payment')
+  }
+
+  function handlePaymentSubmit(e) {
+    e.preventDefault()
+    setStep('success')
   }
 
   const totalDays =
@@ -35,13 +71,22 @@ function CarDetailPage({ cars = [] }) {
       )
       : 0
 
-  const totalPrice = totalDays * car?.pricePerDay
+  const dailyPrice = car && car.pricePerDay || 0;
+  const totalPrice = totalDays * dailyPrice;
 
   if (!car) {
     return <div className="not-found">Car not found.</div>
   }
 
-  if (submitted) {
+  if (checkingAuth) {
+    return (
+      <div className="auth-check">
+        <p>Loading...</p>
+      </div>
+    )
+  }
+
+  if (step === 'success') {
     return (
       <div className="success-container">
         <div className="receipt-card">
@@ -66,6 +111,10 @@ function CarDetailPage({ cars = [] }) {
               <span>Duration</span>
               <strong>{totalDays} days</strong>
             </div>
+            <div className="receipt-row">
+              <span>Payment</span>
+              <strong>{paymentMethod === 'cash' ? 'Cash' : 'Credit Card'}</strong>
+            </div>
             <div className="receipt-row total-highlight">
               <span>Total</span>
               <strong>${totalPrice}</strong>
@@ -79,6 +128,124 @@ function CarDetailPage({ cars = [] }) {
     )
   }
 
+  if (step === 'payment') {
+    return (
+      <div className="payment-page">
+        <div className="payment-card">
+          <button className="back-link-btn" onClick={() => setStep('booking')}>
+            ← Back to booking
+          </button>
+
+          <h2>Payment</h2>
+          <p className="payment-subtitle">Choose your payment method</p>
+
+          <div className="payment-summary">
+            <div className="payment-summary-row">
+              <span>{car.brand} {car.model}</span>
+              <span>{totalDays} days</span>
+            </div>
+            <div className="payment-summary-total">
+              <span>Total</span>
+              <strong>${totalPrice}</strong>
+            </div>
+          </div>
+
+          <div className="payment-methods">
+            <div
+              className={`payment-method-btn ${paymentMethod === 'cash' ? 'active' : ''}`}
+              onClick={() => setPaymentMethod('cash')}
+            >
+              <span>💵</span>
+              <div>
+                <strong>Cash</strong>
+                <p>Pay at pickup location</p>
+              </div>
+              <div className={`radio ${paymentMethod === 'cash' ? 'checked' : ''}`}></div>
+            </div>
+
+            <div
+              className={`payment-method-btn ${paymentMethod === 'card' ? 'active' : ''}`}
+              onClick={() => setPaymentMethod('card')}
+            >
+              <span>💳</span>
+              <div>
+                <strong>Credit / Debit Card</strong>
+                <p>Pay securely online</p>
+              </div>
+              <div className={`radio ${paymentMethod === 'card' ? 'checked' : ''}`}></div>
+            </div>
+          </div>
+
+          {paymentMethod === 'card' && (
+            <form onSubmit={handlePaymentSubmit} className="card-form">
+              <div className="input-group">
+                <label>Card Number</label>
+                <input
+                  type="text"
+                  name="cardNumber"
+                  value={cardForm.cardNumber}
+                  onChange={handleCardChange}
+                  placeholder="1234 5678 9012 3456"
+                  maxLength="19"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Cardholder Name</label>
+                <input
+                  type="text"
+                  name="cardName"
+                  value={cardForm.cardName}
+                  onChange={handleCardChange}
+                  placeholder="Vusal Abbasov"
+                  required
+                />
+              </div>
+
+              <div className="card-form-row">
+                <div className="input-group">
+                  <label>Expiry Date</label>
+                  <input
+                    type="text"
+                    name="expiry"
+                    value={cardForm.expiry}
+                    onChange={handleCardChange}
+                    placeholder="MM/YY"
+                    maxLength="5"
+                    required
+                  />
+                </div>
+                <div className="input-group">
+                  <label>CVV</label>
+                  <input
+                    type="text"
+                    name="cvv"
+                    value={cardForm.cvv}
+                    onChange={handleCardChange}
+                    placeholder="123"
+                    maxLength="3"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="confirm-btn">
+                Pay ${totalPrice}
+              </button>
+            </form>
+          )}
+
+          {paymentMethod === 'cash' && (
+            <button className="confirm-btn" onClick={handlePaymentSubmit}>
+              Confirm Booking →
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="detail-page-wrapper">
 
@@ -87,10 +254,7 @@ function CarDetailPage({ cars = [] }) {
       </button>
 
       <div className="detail-main-grid">
-
-        {/* Sol tərəf */}
         <div className="detail-left">
-
           <div className="car-image-block">
             <img src={car.image} alt={car.model} className="car-main-image" />
           </div>
@@ -149,28 +313,28 @@ function CarDetailPage({ cars = [] }) {
               <h3>Rental Policy</h3>
               <ul className="policy-list">
                 <li>
-                  <span className="policy-icon">🪪</span>
+              
                   <div>
                     <strong>Valid Driver's License</strong>
                     <p>Must be 21+ with valid license</p>
                   </div>
                 </li>
                 <li>
-                  <span className="policy-icon">💳</span>
+              
                   <div>
                     <strong>Credit Card Required</strong>
                     <p>For security deposit authorization</p>
                   </div>
                 </li>
                 <li>
-                  <span className="policy-icon">⏱️</span>
+                
                   <div>
                     <strong>Free Cancellation</strong>
                     <p>Cancel up to 24 hours before pickup</p>
                   </div>
                 </li>
                 <li>
-                  <span className="policy-icon">⛽</span>
+              
                   <div>
                     <strong>Full to Full Fuel Policy</strong>
                     <p>Return the car with a full tank</p>
@@ -184,11 +348,23 @@ function CarDetailPage({ cars = [] }) {
 
         <div className="detail-right">
           <div className="booking-card">
-
             <h3>Book This Car</h3>
 
-            {car.available ? (
-              <form onSubmit={handleSubmit} className="booking-form">
+            {!user ? (
+              <div className="login-required-box">
+                <span>🔒</span>
+                <p>You need to sign in to book this car.</p>
+                <div className="login-required-btns">
+                  <button onClick={() => navigate('/login')} className="confirm-btn">
+                    Sign In
+                  </button>
+                  <button onClick={() => navigate('/signup')} className="browse-btn">
+                    Create Account
+                  </button>
+                </div>
+              </div>
+            ) : car.available ? (
+              <form onSubmit={handleBookingSubmit} className="booking-form">
 
                 <div className="input-group">
                   <label>📍 Pickup Location</label>
@@ -231,7 +407,7 @@ function CarDetailPage({ cars = [] }) {
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Vusal Abbasov"
                     required
                   />
                 </div>
@@ -243,7 +419,7 @@ function CarDetailPage({ cars = [] }) {
                     name="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="vusal@example.com"
                     required
                   />
                 </div>
@@ -276,11 +452,8 @@ function CarDetailPage({ cars = [] }) {
                 </div>
 
                 <button type="submit" className="confirm-btn">
-                  Reserve Now →
+                  Continue to Payment 
                 </button>
-
-                <p className="cancel-note">🛡 Free cancellation up to 24 hours before pickup</p>
-
               </form>
             ) : (
               <div className="unavailable-box">
