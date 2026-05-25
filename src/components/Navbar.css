@@ -123,3 +123,10 @@
   background: #fee2e2;
   color: #dc2626;
 }
+
+.favorites-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
