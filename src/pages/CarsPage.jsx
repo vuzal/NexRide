@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../firebase'
 import { useNavigate } from 'react-router-dom'
 import CurrencySelector from '../components/CurrencySelector'
 import './CarsPage.css'
 
-function CarsPage({ cars = [] }) {
+function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookings = [] }) {
   const [category, setCategory] = useState('All Cars')
   const [currency, setCurrency] = useState('USD')
   const [rate, setRate] = useState(1)
@@ -11,6 +13,15 @@ function CarsPage({ cars = [] }) {
   const [currentPage, setCurrentPage] = useState(1)
   const carsPerPage = 6
   const navigate = useNavigate()
+  const [search, setSearch] = useState('')
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+    return () => unsubscribe()
+  }, [])
 
   function handleRateChange(selectedCurrency, selectedRate) {
     setCurrency(selectedCurrency)
@@ -23,16 +34,17 @@ function CarsPage({ cars = [] }) {
   }
 
   const categories = [
-    { label: 'All Cars', icon: '🚗' },
-    { label: 'Sedan', icon: '🚙' },
-    { label: 'SUV', icon: '🛻' },
-    { label: 'Hatchback', icon: '🚘' },
-    { label: 'Electric', icon: '⚡' },
+    { label: 'All Cars' },
+    { label: 'Sedan'},
+    { label: 'SUV' },
+    { label: 'Hatchback' },
   ]
 
   const filtered = cars.filter(car => {
-    if (category === 'All Cars') return true
-    return car.category === category
+    const matchCategory = category === 'All Cars' || car.category === category
+    const matchSearch = car.brand.toLowerCase().includes(search.toLowerCase()) ||
+      car.model.toLowerCase().includes(search.toLowerCase())
+    return matchCategory && matchSearch
   })
   const sorted = [...filtered].sort((a, b) => {
     if (sortBy === 'price-asc') return a.pricePerDay - b.pricePerDay
@@ -58,17 +70,21 @@ function CarsPage({ cars = [] }) {
           <h2>Find Your <span>Perfect Car</span></h2>
         </div>
         <div className="header-actions">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search brand or model..."
+              value={search}
+              onChange={e => { setSearch(e.target.value); setCurrentPage(1) }}
+            />
+          </div>
           <CurrencySelector onRateChange={handleRateChange} />
         </div>
       </div>
 
       <div className="cars-layout">
-
         <aside className="filter-sidebar">
           <div className="sidebar-header">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
             <h2>Filters</h2>
           </div>
 
@@ -81,7 +97,6 @@ function CarsPage({ cars = [] }) {
                   className={`filter-sidebar-btn ${category === cat.label ? 'active' : ''}`}
                   onClick={() => handleCategoryChange(cat.label)}
                 >
-                  <span className="cat-icon">{cat.icon}</span>
                   {cat.label}
                   <span className="cat-count">
                     {cat.label === 'All Cars'
@@ -100,29 +115,25 @@ function CarsPage({ cars = [] }) {
                 className={`filter-sidebar-btn ${sortBy === 'default' ? 'active' : ''}`}
                 onClick={() => { setSortBy('default'); setCurrentPage(1) }}
               >
-                <span className="cat-icon">🔀</span>
                 Default
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'popular' ? 'active' : ''}`}
                 onClick={() => { setSortBy('popular'); setCurrentPage(1) }}
               >
-                <span className="cat-icon">🔥</span>
                 Most Popular
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'price-asc' ? 'active' : ''}`}
                 onClick={() => { setSortBy('price-asc'); setCurrentPage(1) }}
               >
-                <span className="cat-icon">↑</span>
-                Price: Low to High
+                ↑ Price: Low to High
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'price-desc' ? 'active' : ''}`}
                 onClick={() => { setSortBy('price-desc'); setCurrentPage(1) }}
               >
-                <span className="cat-icon">↓</span>
-                Price: High to Low
+               ↓ Price: High to Low
               </button>
             </div>
           </div>
@@ -138,20 +149,42 @@ function CarsPage({ cars = [] }) {
               <div
                 className="car-card-pro"
                 key={car.id}
-                onClick={() => navigate(`/cars/${car.id}`)}
               >
                 <div className="car-card-hero">
                   <div className="hero-badges">
-                    <span className={car.available ? 'badge-avail available' : 'badge-avail unavailable'}>
-                      {car.available ? '● Available' : '● Not Available'}
+                    <span className={
+                      bookings.find(b => b.carId === car.id && b.status === 'active')
+                        ? 'badge-avail unavailable'
+                        : car.available
+                          ? 'badge-avail available'
+                          : 'badge-avail unavailable'
+                    }>
+                      {bookings.find(b => b.carId === car.id && b.status === 'active')
+                        ? '● Not Available'
+                        : car.available
+                          ? '● Available'
+                          : '● Not Available'
+                      }
                     </span>
-                    <span className="badge-rating">⭐ 4.9</span>
                   </div>
                   <img src={car.image} alt={car.model} className="car-img" />
                   <div className="card-hero-gradient"></div>
+                  <button
+                    className={`fav-btn ${favorites.find(f => f.id === car.id) ? 'fav-active' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (!user) {
+                        navigate('/login')
+                        return
+                      }
+                      toggleFavorite(car)
+                    }}
+                  >
+                    {favorites.find(f => f.id === car.id) ? '❤️' : '🤍'}
+                  </button>
                 </div>
 
-                <div className="car-card-body">
+                <div className="car-card-body" onClick={() => navigate(`/cars/${car.id}`)}>
                   <span className="car-category-label">{car.category}</span>
                   <h3 className="car-title">{car.brand} {car.model}</h3>
 
@@ -166,7 +199,7 @@ function CarsPage({ cars = [] }) {
                     </div>
                     <div className="spec">
                       <span className="spec-icon">⚡</span>
-                      {car.horsepower} hp
+                      {car.horsepower} Hp
                     </div>
                   </div>
 
@@ -182,6 +215,17 @@ function CarsPage({ cars = [] }) {
                       View Details →
                     </button>
                   </div>
+                  {user && car.ownerId === user.uid && (
+                    <button
+                      className="delete-car-btn"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        deleteCar(car.id)
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
