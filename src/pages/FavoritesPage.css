@@ -1,0 +1,231 @@
+.favorites-page {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 48px 6%;
+  font-family: 'Inter', sans-serif;
+}
+
+.favorites-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.favorites-empty h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 10px;
+}
+
+.favorites-empty p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0 0 28px;
+}
+
+.browse-btn {
+  padding: 12px 28px;
+  background: #f5a623;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.browse-btn:hover {
+  background: #e09510;
+
+}
+
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.favorites-eyebrow {
+  font-size: 12px;
+  color: #f5a623;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.favorites-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.favorites-header h2 span {
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.back-to-fleet-btn {
+  background: transparent;
+  border: 1.5px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-to-fleet-btn:hover {
+  background-color: #f5a623;
+  border-color: #f5a623;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.fav-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+
+.fav-card:hover {
+  border-color: #f5a623;
+  transform: translateY(-6px);
+}
+
+.fav-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.fav-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.fav-remove-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fav-remove-btn:hover {
+  background: #f5a623
+}
+
+.fav-card-body {
+  padding: 20px;
+}
+
+.fav-category {
+  font-size: 11px;
+  color: #f5a623;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.fav-card-body h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 6px 0 14px;
+}
+
+.fav-specs {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 14px;
+}
+
+.fav-spec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.fav-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fav-price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.fav-price-amount {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.fav-price-period {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.fav-book-btn {
+  background: #f5a623;
+  color: #0f0f0f;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fav-book-btn:hover {
+  background: #e09510;
+}
+
+@media (max-width: 768px) {
+  .favorites-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
