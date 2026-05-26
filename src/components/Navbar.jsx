@@ -5,7 +5,7 @@ import { auth } from '../firebase'
 import './Navbar.css'
 import logoImg from '../assets/logo.png'
 
-function Navbar({ favoritesCount }) {
+function Navbar({ favoritesCount, bookingsCount }) {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
 
@@ -19,6 +19,7 @@ function Navbar({ favoritesCount }) {
   async function handleSignOut() {
     await signOut(auth)
     localStorage.removeItem('nexride_favorites')
+    localStorage.removeItem('nexride_bookings')
     navigate('/')
     window.location.reload()
   }
@@ -36,11 +37,16 @@ function Navbar({ favoritesCount }) {
         <NavLink to="/" end>Home</NavLink>
         <NavLink to="/cars">Cars</NavLink>
         {user && (
-          <NavLink to="/favorites" className="favorites-link">
-            ❤️ Favorites
-          </NavLink>
+          <>
+            <NavLink to="/favorites" className="favorites-link">
+              Favorites
+            </NavLink>
+            <NavLink to="/bookings" className="bookings-link">
+              My Bookings
+            </NavLink>
+          </>
         )}
-        <NavLink to="/list-car" className="list-car-btn">List Your Car</NavLink>
+        <NavLink to="/list-car" className="list-car-btn">Rent Out Your Car</NavLink>
       </div>
 
       <div className="navbar-auth">

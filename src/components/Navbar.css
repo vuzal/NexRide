@@ -50,6 +50,7 @@
 }
 
 .navbar-links a.active {
+  background-color: rgb(255, 224, 157);
   color: #0f172a;
   font-weight: 600;
 }
@@ -130,3 +131,10 @@
   align-items: center;
   gap: 6px;
 }
+.bookings-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
