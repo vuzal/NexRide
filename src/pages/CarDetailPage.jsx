@@ -4,7 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../firebase'
 import './CarDetailPage.css'
 
-function CarDetailPage({ cars = [] }) {
+function CarDetailPage({ cars = [], addBooking }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const car = cars.find(car => car.id === parseInt(id))
@@ -60,6 +60,22 @@ function CarDetailPage({ cars = [] }) {
 
   function handlePaymentSubmit(e) {
     e.preventDefault()
+    addBooking({
+      carId: car.id,
+      carBrand: car.brand,
+      carModel: car.model,
+      carImage: car.image,
+      carPrice: car.pricePerDay,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      pickupLocation: form.pickupLocation,
+      startDate: form.startDate,
+      endDate: form.endDate,
+      totalDays: totalDays,
+      totalPrice: totalPrice,
+      paymentMethod: paymentMethod,
+    })
     setStep('success')
   }
 
@@ -93,7 +109,6 @@ function CarDetailPage({ cars = [] }) {
           <div className="success-icon">✓</div>
           <h2>Booking Confirmed</h2>
           <p className="success-subtitle">Your ride is reserved and ready.</p>
-          <div className="receipt-divider"></div>
           <div className="receipt-details">
             <div className="receipt-row">
               <span>Driver</span>
@@ -248,7 +263,6 @@ function CarDetailPage({ cars = [] }) {
 
   return (
     <div className="detail-page-wrapper">
-
       <button className="back-link-btn" onClick={() => navigate('/cars')}>
         ← Back to fleet
       </button>
@@ -300,12 +314,21 @@ function CarDetailPage({ cars = [] }) {
             <div className="amenities-card">
               <h3>What's Included</h3>
               <ul className="amenities-list">
-                <li>Full Insurance (CDW)</li>
-                <li>GPS Navigation</li>
-                <li>Apple CarPlay & Android Auto</li>
-                <li>Premium Audio System</li>
-                <li>24/7 Roadside Assistance</li>
-                <li>Free Cancellation</li>
+                {car.description
+                  ? car.description.split(',').map((item, index) => (
+                    <li key={index}>{item.trim()}</li>
+                  ))
+                  : (
+                    <>
+                      <li>Full Insurance (CDW)</li>
+                      <li>GPS Navigation</li>
+                      <li>Apple CarPlay & Android Auto</li>
+                      <li>Premium Audio System</li>
+                      <li>24/7 Roadside Assistance</li>
+                      <li>Free Cancellation</li>
+                    </>
+                  )
+                }
               </ul>
             </div>
 
@@ -313,28 +336,28 @@ function CarDetailPage({ cars = [] }) {
               <h3>Rental Policy</h3>
               <ul className="policy-list">
                 <li>
-              
+
                   <div>
                     <strong>Valid Driver's License</strong>
                     <p>Must be 21+ with valid license</p>
                   </div>
                 </li>
                 <li>
-              
+
                   <div>
                     <strong>Credit Card Required</strong>
                     <p>For security deposit authorization</p>
                   </div>
                 </li>
                 <li>
-                
+
                   <div>
                     <strong>Free Cancellation</strong>
                     <p>Cancel up to 24 hours before pickup</p>
                   </div>
                 </li>
                 <li>
-              
+
                   <div>
                     <strong>Full to Full Fuel Policy</strong>
                     <p>Return the car with a full tank</p>
@@ -347,9 +370,8 @@ function CarDetailPage({ cars = [] }) {
         </div>
 
         <div className="detail-right">
-          <div className="booking-card">
+          <div className="detail-booking-card">
             <h3>Book This Car</h3>
-
             {!user ? (
               <div className="login-required-box">
                 <span>🔒</span>
@@ -441,10 +463,6 @@ function CarDetailPage({ cars = [] }) {
                     <span>${car.pricePerDay} × {totalDays > 0 ? totalDays : 1} day</span>
                     <span>${totalDays > 0 ? totalPrice : car.pricePerDay}</span>
                   </div>
-                  <div className="invoice-row">
-                    <span>Insurance & fees</span>
-                    <span className="included-tag">Included</span>
-                  </div>
                   <div className="invoice-total">
                     <strong>Total</strong>
                     <strong className="total-price">${totalDays > 0 ? totalPrice : car.pricePerDay}</strong>
@@ -452,7 +470,7 @@ function CarDetailPage({ cars = [] }) {
                 </div>
 
                 <button type="submit" className="confirm-btn">
-                  Continue to Payment 
+                  Continue to Payment
                 </button>
               </form>
             ) : (
@@ -471,5 +489,4 @@ function CarDetailPage({ cars = [] }) {
     </div>
   )
 }
-
 export default CarDetailPage
