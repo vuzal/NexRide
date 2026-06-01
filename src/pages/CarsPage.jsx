@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../firebase'
 import { useNavigate } from 'react-router-dom'
 import CurrencySelector from '../components/CurrencySelector'
 import './CarsPage.css'
@@ -17,10 +15,10 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-    })
-    return () => unsubscribe()
+    const activeUser = JSON.parse(localStorage.getItem('nexride_active_user'))
+    if (activeUser) {
+      setUser(activeUser)
+    }
   }, [])
 
   function handleRateChange(selectedCurrency, selectedRate) {
@@ -160,10 +158,10 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                           : 'badge-avail unavailable'
                     }>
                       {bookings.find(b => b.carId === car.id && b.status === 'active')
-                        ? '● Not Available'
+                        ? 'Not Available'
                         : car.available
-                          ? '● Available'
-                          : '● Not Available'
+                          ? 'Available'
+                          : 'Not Available'
                       }
                     </span>
                   </div>
@@ -215,7 +213,8 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                       View Details →
                     </button>
                   </div>
-                  {user && car.ownerId === user.uid && (
+                  
+                  {user && car.ownerId === user.email && (
                     <button
                       className="delete-car-btn"
                       onClick={(e) => {
