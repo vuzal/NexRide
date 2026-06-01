@@ -46,8 +46,8 @@ function LoginPage() {
               <p>Manage your listings</p>
             </div>
             <div className="auth-feature-item">
-              <span>💳</span>
-              <p>View payment history</p>
+              <span>🤍</span>
+              <p>View your favorite cars</p>
             </div>
           </div>
         </div>
