@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './ListCarPage.css';
+import './ListCarPage.css'
 
 function ListCarPage({ addCar }) {
   const navigate = useNavigate()
 
-  // Form state
   const [form, setForm] = useState({
     brand: '',
     model: '',
@@ -15,66 +14,73 @@ function ListCarPage({ addCar }) {
     seats: '',
     pricePerDay: '',
     image: '',
+    fuel: '',
+    horsepower: '',
     description: '',
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [user, setUser] = useState(null)
 
-  // Səhifə yüklənəndə yuxarı qalxması üçün
   useEffect(() => {
-    window.scrollTo(0, 0)
+    const activeUser = JSON.parse(localStorage.getItem('nexride_active_user'))
+    if (activeUser) {
+      setUser(activeUser)
+    }
   }, [])
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  const inputName = e.target.name;
+  const inputValue = e.target.value; 
+  const updatedForm = { ...form };
+  updatedForm[inputName] = inputValue;
+  setForm(updatedForm);
+}
 
   function handleSubmit(e) {
     e.preventDefault()
     addCar({
       ...form,
-      id: Date.now(), // Test üçün unikal ID
+      id: Date.now(),
       year: parseInt(form.year),
       seats: parseInt(form.seats),
       pricePerDay: parseInt(form.pricePerDay),
-      available: true
-    })
-    setForm({
-      ...form,
-      year: parseInt(form.year),
-      seats: parseInt(form.seats),
-      pricePerDay: parseInt(form.pricePerDay)
+      horsepower: parseInt(form.horsepower),
+      available: true,
+      ownerId: user.email 
     })
     setSubmitted(true)
   }
 
-  function handleReset() {
-    setForm({
-      brand: '',
-      model: '',
-      year: '',
-      category: '',
-      transmission: '',
-      seats: '',
-      pricePerDay: '',
-      image: '',
-      description: '',
-    })
-    setSubmitted(false)
+  if (!user) {
+    return (
+      <div className="auth-check">
+        <div className="auth-check-card">
+          <span className="auth-check-icon">🔒</span>
+          <h2>Sign In Required</h2>
+          <p>You need to be signed in to rent out your car.</p>
+          <div className="auth-check-btns">
+            <button onClick={() => navigate('/login')} className="auth-check-btn-signIn">
+              Sign In
+            </button>
+            <button onClick={() => navigate('/signup')} className="auth-check-btn-createAccount">
+              Create Account
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
-  // Uğurlu Göndərmə Ekranı (Success Preview)
   if (submitted) {
     return (
       <div className="listcar-page-container">
         <div className="success-preview-wrapper">
-          <div className="success-badge-badge">✓</div>
+          <div className="success-badge">✓</div>
           <h2>Listing Successfully Submitted!</h2>
-          <p className="success-sub">Your vehicle has been added to NexRide database and is now undergoing instant host verification.</p>
-          
-          {/* CANLI MAŞIN PREVIEW KARTI */}
+          <p className="success-sub">Your vehicle has been added to NexRide</p>
+
           <div className="live-preview-card">
-            <span className="live-verification-status">● Awaiting Host Verification</span>
             <div className="preview-car-image">
               <img src={form.image || 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80'} alt="Car Preview" />
             </div>
@@ -83,11 +89,6 @@ function ListCarPage({ addCar }) {
                 <h3>{form.brand} <span>{form.model}</span></h3>
                 <span className="preview-year">{form.year}</span>
               </div>
-              <div className="preview-meta-row">
-                <span>⚙ {form.transmission}</span>
-                <span>💺 {form.seats} Seats</span>
-                <span>📁 {form.category}</span>
-              </div>
               <div className="preview-price">
                 <strong>${form.pricePerDay}</strong><span>/day</span>
               </div>
@@ -95,19 +96,16 @@ function ListCarPage({ addCar }) {
           </div>
 
           <div className="success-action-buttons">
-            <button className="cta-all-fleet" onClick={() => navigate('/cars')}>
-              Go to Fleet Directory
+            <button className="cta-all-cars" onClick={() => navigate('/cars')}>
+              Go to Cars
             </button>
-            <button className="cta-add-another" onClick={handleReset}>
-              List Another Vehicle
-            </button>
+
           </div>
         </div>
       </div>
     )
   }
 
-  // Əsas Sadələşdirilmiş Form Ekranı
   return (
     <div className="listcar-page-container">
       <div className="form-card-wrapper">
@@ -118,7 +116,7 @@ function ListCarPage({ addCar }) {
 
         <form onSubmit={handleSubmit} className="premium-car-list-form">
           <div className="form-fields-grid">
-            
+
             <div className="form-input-group">
               <label>Car Brand</label>
               <input
@@ -217,22 +215,46 @@ function ListCarPage({ addCar }) {
               />
             </div>
 
+            <div className="form-input-group">
+              <label>Fuel Type</label>
+              <select name="fuel" value={form.fuel} onChange={handleChange} required>
+                <option value="">Select fuel type...</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+            </div>
+
+            <div className="form-input-group">
+              <label>Horsepower (hp)</label>
+              <input
+                type="number"
+                name="horsepower"
+                value={form.horsepower}
+                onChange={handleChange}
+                placeholder="e.g. 250"
+                min="50"
+                required
+              />
+            </div>
+
           </div>
 
           <div className="form-textarea-group">
-            <label>Vehicle Description & Key Amenities</label>
+            <label>What's Included (separate with commas)</label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder="Highlight your car's special features, premium upgrades, or modifications..."
+              placeholder="e.g. GPS Navigation, Full Insurance, Sunroof, Apple CarPlay"
               rows="4"
               required
             />
           </div>
 
           <button type="submit" className="submit-listing-btn">
-            Publish Your Listing
+            Rent out your car
           </button>
         </form>
       </div>
@@ -240,4 +262,4 @@ function ListCarPage({ addCar }) {
   )
 }
 
-export default ListCarPage;
+export default ListCarPage
