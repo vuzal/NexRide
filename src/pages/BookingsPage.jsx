@@ -22,11 +22,10 @@ function BookingsPage({ bookings = [], cancelBooking }) {
     <div className="bookings-page">
       <div className="bookings-header">
         <div>
-          <p className="bookings-eyebrow">Your Reservations</p>
           <h2>My Bookings <span>({bookings.length})</span></h2>
         </div>
         <button onClick={() => navigate('/cars')} className="back-to-fleet-btn">
-          ← Back to Fleet
+          ← Back to Cars
         </button>
       </div>
 
@@ -37,7 +36,7 @@ function BookingsPage({ bookings = [], cancelBooking }) {
             <div className="booking-card-image">
               <img src={booking.carImage} alt={booking.carModel} />
               <span className={`booking-status ${booking.status === 'active' ? 'status-active' : 'status-cancelled'}`}>
-                {booking.status === 'active' ? '● Active' : '● Cancelled'}
+                {booking.status === 'active' ? 'Active' : 'Cancelled'}
               </span>
             </div>
 
@@ -49,29 +48,29 @@ function BookingsPage({ bookings = [], cancelBooking }) {
                 </span>
               </div>
 
-              <div className="booking-details-grid">
+              <div className="booking-details">
                 <div className="booking-detail-item">
-                  <span className="detail-label">📍 Pickup</span>
+                  <span className="detail-label">Pickup</span>
                   <span className="detail-value">{booking.pickupLocation}</span>
                 </div>
                 <div className="booking-detail-item">
-                  <span className="detail-label">👤 Driver</span>
+                  <span className="detail-label">Driver</span>
                   <span className="detail-value">{booking.name}</span>
                 </div>
                 <div className="booking-detail-item">
-                  <span className="detail-label">📅 Start Date</span>
+                  <span className="detail-label">Start Date</span>
                   <span className="detail-value">{booking.startDate}</span>
                 </div>
                 <div className="booking-detail-item">
-                  <span className="detail-label">📅 End Date</span>
+                  <span className="detail-label">End Date</span>
                   <span className="detail-value">{booking.endDate}</span>
                 </div>
                 <div className="booking-detail-item">
-                  <span className="detail-label">🕐 Duration</span>
+                  <span className="detail-label">Duration</span>
                   <span className="detail-value">{booking.totalDays} days</span>
                 </div>
                 <div className="booking-detail-item">
-                  <span className="detail-label">📞 Phone</span>
+                  <span className="detail-label">Phone</span>
                   <span className="detail-value">{booking.phone}</span>
                 </div>
               </div>
@@ -79,7 +78,6 @@ function BookingsPage({ bookings = [], cancelBooking }) {
               <div className="booking-card-footer">
                 <div className="booking-price">
                   <span className="booking-price-amount">${booking.totalPrice}</span>
-                  <span className="booking-price-label">Total</span>
                 </div>
 
                 {booking.status === 'active' && (
