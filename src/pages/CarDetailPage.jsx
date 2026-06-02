@@ -213,7 +213,7 @@ function CarDetailPage({ cars = [], addBooking }) {
           <h2>Booking Confirmed</h2>
           <p className="success-subtitle">Your ride is reserved and ready.</p>
           <button className="back-fleet-btn" onClick={() => navigate('/cars')}>
-            Back to Fleet
+            Back to Cars
           </button>
         </div>
       </div>
