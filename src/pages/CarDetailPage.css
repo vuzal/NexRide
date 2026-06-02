@@ -27,7 +27,7 @@
   color: #f5a623;
 }
 
-.detail-main-grid {
+.detail-main {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 32px;
@@ -133,7 +133,7 @@
   font-size: 16px;
 }
 
-.detail-bottom-grid {
+.detail-bottom {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -310,10 +310,13 @@
   font-weight: 700;
   cursor: pointer;
   margin-top: 4px;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
 .confirm-btn:hover {
-  background: #1d4ed8;
+  background: #e69516;
+  transform: translateY(-2px);
 }
 
 
@@ -330,18 +333,20 @@
 
 .browse-btn {
   width: 100%;
-  background: #f1f5f9;
+  background: #f5a623;
   border: 1px solid #e2e8f0;
-  color: #475569;
+  color: #ffffff !important;
   padding: 12px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .browse-btn:hover {
-  background: #e2e8f0;
+  background: #e69516;
+  transform: translateY(-2px);
 }
 
 .success-container {
@@ -390,41 +395,6 @@
   margin-bottom: 28px;
 }
 
-.receipt-details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: #f8fafc;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 28px;
-  text-align: left;
-}
-
-.receipt-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.receipt-row strong {
-  color: #0f172a;
-  font-weight: 600;
-}
-
-.receipt-row.total-highlight {
-  border-top: 1px solid #e2e8f0;
-  padding-top: 12px;
-  margin-top: 4px;
-}
-
-.receipt-row.total-highlight strong {
-  color: #f5a623;
-  font-size: 20px;
-  font-weight: 800;
-}
-
 .back-fleet-btn {
   background: #f5a623;
   color: #ffffff;
@@ -434,10 +404,14 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .back-fleet-btn:hover {
-  background: #1d4ed8;
+  background: #e69516;
+  /* Uyğunsuz göy (#1d4ed8) tünd narıncı ilə əvəzləndi */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
 }
 
 .not-found {
@@ -448,15 +422,18 @@
 }
 
 @media (max-width: 968px) {
-  .detail-main-grid {
+  .detail-main {
     grid-template-columns: 1fr;
   }
+
   .detail-right {
     position: static;
   }
+
   .detail-bottom-grid {
     grid-template-columns: 1fr;
   }
+
   .car-main-image {
     height: 260px;
   }
@@ -515,12 +492,6 @@
   margin: 16px 0 6px;
 }
 
-.payment-subtitle {
-  font-size: 14px;
-  color: #94a3b8;
-  margin: 0 0 24px;
-}
-
 .payment-summary {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -574,7 +545,8 @@
 }
 
 .payment-method-btn span {
-  font-size: 24px;}
+  font-size: 24px;
+}
 
 .payment-method-btn strong {
   font-size: 14px;
@@ -589,18 +561,6 @@
   margin: 0;
 }
 
-.radio {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #e2e8f0;
-  border-radius: 50%;
-  margin-left: auto;
-}
-
-.radio.checked {
-  border-color: #f5a623;
-  background: #f5a623;
-}
 
 .card-form {
   display: flex;
@@ -622,5 +582,4 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
-  font-family: 'Inter', sans-serif;
 }

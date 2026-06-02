@@ -1,7 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../firebase'
 import './CarDetailPage.css'
 
 function CarDetailPage({ cars = [], addBooking }) {
@@ -27,14 +25,12 @@ function CarDetailPage({ cars = [], addBooking }) {
     cvv: '',
   })
   const [user, setUser] = useState(null)
-  const [checkingAuth, setCheckingAuth] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-      setCheckingAuth(false)
-    })
-    return () => unsubscribe()
+    const activeUser = JSON.parse(localStorage.getItem('nexride_active_user'))
+    if (activeUser) {
+      setUser(activeUser)
+    }
   }, [])
 
   function handleChange(e) {
@@ -94,55 +90,7 @@ function CarDetailPage({ cars = [], addBooking }) {
     return <div className="not-found">Car not found.</div>
   }
 
-  if (checkingAuth) {
-    return (
-      <div className="auth-check">
-        <p>Loading...</p>
-      </div>
-    )
-  }
-
-  if (step === 'success') {
-    return (
-      <div className="success-container">
-        <div className="receipt-card">
-          <div className="success-icon">✓</div>
-          <h2>Booking Confirmed</h2>
-          <p className="success-subtitle">Your ride is reserved and ready.</p>
-          <div className="receipt-details">
-            <div className="receipt-row">
-              <span>Driver</span>
-              <strong>{form.name}</strong>
-            </div>
-            <div className="receipt-row">
-              <span>Vehicle</span>
-              <strong>{car.brand} {car.model}</strong>
-            </div>
-            <div className="receipt-row">
-              <span>Pickup</span>
-              <strong>{form.pickupLocation}</strong>
-            </div>
-            <div className="receipt-row">
-              <span>Duration</span>
-              <strong>{totalDays} days</strong>
-            </div>
-            <div className="receipt-row">
-              <span>Payment</span>
-              <strong>{paymentMethod === 'cash' ? 'Cash' : 'Credit Card'}</strong>
-            </div>
-            <div className="receipt-row total-highlight">
-              <span>Total</span>
-              <strong>${totalPrice}</strong>
-            </div>
-          </div>
-          <button className="back-fleet-btn" onClick={() => navigate('/cars')}>
-            Back to Fleet
-          </button>
-        </div>
-      </div>
-    )
-  }
-
+ 
   if (step === 'payment') {
     return (
       <div className="payment-page">
@@ -152,8 +100,6 @@ function CarDetailPage({ cars = [], addBooking }) {
           </button>
 
           <h2>Payment</h2>
-          <p className="payment-subtitle">Choose your payment method</p>
-
           <div className="payment-summary">
             <div className="payment-summary-row">
               <span>{car.brand} {car.model}</span>
@@ -173,9 +119,8 @@ function CarDetailPage({ cars = [], addBooking }) {
               <span>💵</span>
               <div>
                 <strong>Cash</strong>
-                <p>Pay at pickup location</p>
               </div>
-              <div className={`radio ${paymentMethod === 'cash' ? 'checked' : ''}`}></div>
+              <div className={`${paymentMethod === 'cash' ? 'checked' : ''}`}></div>
             </div>
 
             <div
@@ -185,9 +130,8 @@ function CarDetailPage({ cars = [], addBooking }) {
               <span>💳</span>
               <div>
                 <strong>Credit / Debit Card</strong>
-                <p>Pay securely online</p>
               </div>
-              <div className={`radio ${paymentMethod === 'card' ? 'checked' : ''}`}></div>
+              <div className={`${paymentMethod === 'card' ? 'checked' : ''}`}></div>
             </div>
           </div>
 
@@ -201,7 +145,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                   value={cardForm.cardNumber}
                   onChange={handleCardChange}
                   placeholder="1234 5678 9012 3456"
-                  maxLength="19"
+                  maxLength="16"
                   required
                 />
               </div>
@@ -261,13 +205,28 @@ function CarDetailPage({ cars = [], addBooking }) {
     )
   }
 
+   if (step === 'success') {
+    return (
+      <div className="success-container">
+        <div className="receipt-card">
+          <div className="success-icon">✓</div>
+          <h2>Booking Confirmed</h2>
+          <p className="success-subtitle">Your ride is reserved and ready.</p>
+          <button className="back-fleet-btn" onClick={() => navigate('/cars')}>
+            Back to Fleet
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="detail-page-wrapper">
       <button className="back-link-btn" onClick={() => navigate('/cars')}>
-        ← Back to fleet
+        ← Back to Cars
       </button>
 
-      <div className="detail-main-grid">
+      <div className="detail-main">
         <div className="detail-left">
           <div className="car-image-block">
             <img src={car.image} alt={car.model} className="car-main-image" />
@@ -310,7 +269,7 @@ function CarDetailPage({ cars = [], addBooking }) {
             </div>
           </div>
 
-          <div className="detail-bottom-grid">
+          <div className="detail-bottom">
             <div className="amenities-card">
               <h3>What's Included</h3>
               <ul className="amenities-list">
@@ -320,7 +279,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                   ))
                   : (
                     <>
-                      <li>Full Insurance (CDW)</li>
+                      <li>Full Insurance</li>
                       <li>GPS Navigation</li>
                       <li>Apple CarPlay & Android Auto</li>
                       <li>Premium Audio System</li>
@@ -336,28 +295,24 @@ function CarDetailPage({ cars = [], addBooking }) {
               <h3>Rental Policy</h3>
               <ul className="policy-list">
                 <li>
-
                   <div>
                     <strong>Valid Driver's License</strong>
-                    <p>Must be 21+ with valid license</p>
+                    <p>Must be 18+ with valid license</p>
                   </div>
                 </li>
                 <li>
-
                   <div>
                     <strong>Credit Card Required</strong>
                     <p>For security deposit authorization</p>
                   </div>
                 </li>
                 <li>
-
                   <div>
                     <strong>Free Cancellation</strong>
                     <p>Cancel up to 24 hours before pickup</p>
                   </div>
                 </li>
                 <li>
-
                   <div>
                     <strong>Full to Full Fuel Policy</strong>
                     <p>Return the car with a full tank</p>
@@ -389,7 +344,7 @@ function CarDetailPage({ cars = [], addBooking }) {
               <form onSubmit={handleBookingSubmit} className="booking-form">
 
                 <div className="input-group">
-                  <label>📍 Pickup Location</label>
+                  <label>Pickup Location</label>
                   <input
                     type="text"
                     name="pickupLocation"
@@ -401,7 +356,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                 </div>
 
                 <div className="input-group">
-                  <label>📅 Pickup Date</label>
+                  <label>Pickup Date</label>
                   <input
                     type="date"
                     name="startDate"
@@ -412,7 +367,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                 </div>
 
                 <div className="input-group">
-                  <label>📅 Return Date</label>
+                  <label>Return Date</label>
                   <input
                     type="date"
                     name="endDate"
@@ -423,7 +378,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                 </div>
 
                 <div className="input-group">
-                  <label>👤 Full Name</label>
+                  <label>Full Name</label>
                   <input
                     type="text"
                     name="name"
@@ -435,7 +390,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                 </div>
 
                 <div className="input-group">
-                  <label>✉️ Email</label>
+                  <label>Email</label>
                   <input
                     type="email"
                     name="email"
@@ -447,7 +402,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                 </div>
 
                 <div className="input-group">
-                  <label>📞 Phone</label>
+                  <label>Phone</label>
                   <input
                     type="text"
                     name="phone"
