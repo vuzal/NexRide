@@ -67,7 +67,7 @@
   font-size: 20px;
 }
 
-.back-to-fleet-btn {
+.back-to-cars-btn {
   background: transparent;
   border: 1.5px solid #e2e8f0;
   color: #475569;
@@ -78,7 +78,7 @@
   cursor: pointer;
 }
 
-.back-to-fleet-btn:hover {
+.back-to-cars-btn:hover {
   background: #f1f5f9;
 }
 
@@ -153,14 +153,6 @@
   margin: 0;
 }
 
-.booking-payment {
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 500;
-  background: #f1f5f9;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
 
 .booking-details {
   display: grid;
@@ -197,7 +189,6 @@
 
 .booking-price {
   display: flex;
-  /* align-items: baseline; */
   gap: 4px;
 }
 

@@ -22,9 +22,9 @@ function BookingsPage({ bookings = [], cancelBooking }) {
     <div className="bookings-page">
       <div className="bookings-header">
         <div>
-          <h2>My Bookings <span>({bookings.length})</span></h2>
+          <h2>My Bookings</h2>
         </div>
-        <button onClick={() => navigate('/cars')} className="back-to-fleet-btn">
+        <button onClick={() => navigate('/cars')} className="back-to-cars-btn">
           ← Back to Cars
         </button>
       </div>
@@ -43,9 +43,6 @@ function BookingsPage({ bookings = [], cancelBooking }) {
             <div className="booking-card-info">
               <div className="booking-car-name">
                 <h3>{booking.carBrand} {booking.carModel}</h3>
-                <span className="booking-payment">
-                  {booking.paymentMethod === 'cash' ? '💵 Cash' : '💳 Card'}
-                </span>
               </div>
 
               <div className="booking-details">
@@ -90,7 +87,6 @@ function BookingsPage({ bookings = [], cancelBooking }) {
                 )}
               </div>
             </div>
-
           </div>
         ))}
       </div>
