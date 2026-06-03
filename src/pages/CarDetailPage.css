@@ -310,13 +310,11 @@
   font-weight: 700;
   cursor: pointer;
   margin-top: 4px;
-  transition: all 0.2s ease;
   width: 100%;
 }
 
 .confirm-btn:hover {
   background: #e69516;
-  transform: translateY(-2px);
 }
 
 
@@ -341,12 +339,10 @@
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.2s ease;
 }
 
 .browse-btn:hover {
   background: #e69516;
-  transform: translateY(-2px);
 }
 
 .success-container {
@@ -404,14 +400,10 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .back-fleet-btn:hover {
   background: #e69516;
-  /* Uyğunsuz göy (#1d4ed8) tünd narıncı ilə əvəzləndi */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
 }
 
 .not-found {
@@ -430,7 +422,7 @@
     position: static;
   }
 
-  .detail-bottom-grid {
+  .detail-bottom {
     grid-template-columns: 1fr;
   }
 
@@ -575,11 +567,3 @@
   gap: 14px;
 }
 
-.auth-check {
-  background: #f8fafc;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}

@@ -120,7 +120,6 @@ function CarDetailPage({ cars = [], addBooking }) {
               <div>
                 <strong>Cash</strong>
               </div>
-              <div className={`${paymentMethod === 'cash' ? 'checked' : ''}`}></div>
             </div>
 
             <div
@@ -131,7 +130,6 @@ function CarDetailPage({ cars = [], addBooking }) {
               <div>
                 <strong>Credit / Debit Card</strong>
               </div>
-              <div className={`${paymentMethod === 'card' ? 'checked' : ''}`}></div>
             </div>
           </div>
 
@@ -146,6 +144,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                   onChange={handleCardChange}
                   placeholder="1234 5678 9012 3456"
                   maxLength="16"
+                  minLength="16"
                   required
                 />
               </div>
@@ -158,6 +157,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                   value={cardForm.cardName}
                   onChange={handleCardChange}
                   placeholder="Vusal Abbasov"
+                  minLength="2"
                   required
                 />
               </div>
@@ -184,6 +184,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                     onChange={handleCardChange}
                     placeholder="123"
                     maxLength="3"
+                    minLength="3"
                     required
                   />
                 </div>
@@ -197,7 +198,7 @@ function CarDetailPage({ cars = [], addBooking }) {
 
           {paymentMethod === 'cash' && (
             <button className="confirm-btn" onClick={handlePaymentSubmit}>
-              Confirm Booking →
+              Confirm Booking
             </button>
           )}
         </div>
@@ -362,6 +363,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                     name="startDate"
                     value={form.startDate}
                     onChange={handleChange}
+                    onClick={(e) => e.target.showPicker()}
                     required
                   />
                 </div>
@@ -373,6 +375,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                     name="endDate"
                     value={form.endDate}
                     onChange={handleChange}
+                    onClick={(e) => e.target.showPicker()}
                     required
                   />
                 </div>
@@ -409,6 +412,7 @@ function CarDetailPage({ cars = [], addBooking }) {
                     value={form.phone}
                     onChange={handleChange}
                     placeholder="+994 50 000 00 00"
+                    pattern="^(\+994|0)(50|51|55|60|70|77|99)[0-9]{7}$"
                     required
                   />
                 </div>
