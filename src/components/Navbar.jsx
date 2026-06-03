@@ -1,66 +1,93 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { onAuthStateChanged, signOut } from 'firebase/auth'
-import { auth } from '../firebase'
 import './Navbar.css'
-import logoImg from '../assets/logo.png'
+import cross from '../assets/cross.png'
+import hamburger from '../assets/hamburger.png'
+import nexRide_logo from '../assets/nexride_logo.png'
 
 function Navbar({ favoritesCount, bookingsCount }) {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-    })
-    return () => unsubscribe()
+    const activeUser = JSON.parse(localStorage.getItem('nexride_active_user'))
+    if (activeUser) {
+      setUser(activeUser)
+    }
   }, [])
 
-  async function handleSignOut() {
-    await signOut(auth)
+  function handleSignOut() {
+    localStorage.removeItem('nexride_active_user')
     localStorage.removeItem('nexride_favorites')
     localStorage.removeItem('nexride_bookings')
+    
     navigate('/')
     window.location.reload()
+  }
+
+  function toggleMenu() {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  function closeMenu() {
+    setIsMobileMenuOpen(false)
   }
 
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">
-          <img src={logoImg} alt="NexRide Logo" className="logo-image" />
+        <Link to="/" onClick={closeMenu}>
+          <img src={nexRide_logo} alt="NexRide Logo" className="logo-image" />
           <span className="logo-text">NexRide</span>
         </Link>
       </div>
 
-      <div className="navbar-links">
-        <NavLink to="/" end>Home</NavLink>
-        <NavLink to="/cars">Cars</NavLink>
-        {user && (
-          <>
-            <NavLink to="/favorites" className="favorites-link">
-              Favorites
-            </NavLink>
-            <NavLink to="/bookings" className="bookings-link">
-              My Bookings
-            </NavLink>
-          </>
-        )}
-        <NavLink to="/list-car" className="list-car-btn">Rent Out Your Car</NavLink>
+      <div 
+        className={`mobile-menu-icon ${isMobileMenuOpen ? 'active-icon' : ''}`} 
+        onClick={toggleMenu}
+      >
+        <img 
+          src={isMobileMenuOpen ? cross : hamburger} 
+          className="menu-toggle-img"
+        />
       </div>
 
-      <div className="navbar-auth">
-        {user ? (
-          <>
-            <span className="navbar-username">{user.displayName || user.email}</span>
-            <button className="signout-btn" onClick={handleSignOut}>Sign Out</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="login-link">Sign In</Link>
-            <Link to="/signup" className="signup-btn">Sign Up</Link>
-          </>
-        )}
+      <div className={`navbar-content ${isMobileMenuOpen ? 'active' : ''}`}>
+        <div className="navbar-links">
+          <NavLink to="/" onClick={closeMenu}>Home</NavLink>
+          <NavLink to="/cars" onClick={closeMenu}>Cars</NavLink>
+          {user && (
+            <>
+              <NavLink to="/favorites" className="favorites-link" onClick={closeMenu}>
+                Favorites
+              </NavLink>
+              <NavLink to="/bookings" className="bookings-link" onClick={closeMenu}>
+                My Bookings
+              </NavLink>
+            </>
+          )}
+          <NavLink to="/list-car" className="list-car-btn" onClick={closeMenu}>Rent Out Your Car</NavLink>
+        </div>
+
+        <div className="navbar-auth">
+          {user ? (
+            <>
+              <span className="navbar-username">{user.fullName || user.email}</span>
+              <button 
+                className="signout-btn" 
+                onClick={() => { handleSignOut(); closeMenu(); }}
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="login-link" onClick={closeMenu}>Sign In</Link>
+              <Link to="/signup" className="signup-btn" onClick={closeMenu}>Sign Up</Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   )
