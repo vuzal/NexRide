@@ -8,8 +8,6 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
   const [currency, setCurrency] = useState('USD')
   const [rate, setRate] = useState(1)
   const [sortBy, setSortBy] = useState('default')
-  const [currentPage, setCurrentPage] = useState(1)
-  const carsPerPage = 6
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [user, setUser] = useState(null)
@@ -28,7 +26,6 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
 
   function handleCategoryChange(cat) {
     setCategory(cat)
-    setCurrentPage(1)
   }
 
   const categories = [
@@ -44,6 +41,7 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
       car.model.toLowerCase().includes(search.toLowerCase())
     return matchCategory && matchSearch
   })
+
   const sorted = [...filtered].sort((a, b) => {
     if (sortBy === 'price-asc') return a.pricePerDay - b.pricePerDay
     if (sortBy === 'price-desc') return b.pricePerDay - a.pricePerDay
@@ -51,20 +49,10 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
     return 0
   })
 
-  const totalPages = Math.ceil(sorted.length / carsPerPage)
-  const startIndex = (currentPage - 1) * carsPerPage
-  const currentCars = sorted.slice(startIndex, startIndex + carsPerPage)
-  const pageNumbers = []
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i)
-  }
-
-
   return (
     <div className="cars-page-container">
       <div className="cars-page-header">
         <div>
-          <p className="header-eyebrow">Our Collection</p>
           <h2>Find Your <span>Perfect Car</span></h2>
         </div>
         <div className="header-actions">
@@ -73,7 +61,7 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
               type="text"
               placeholder="Search brand or model..."
               value={search}
-              onChange={e => { setSearch(e.target.value); setCurrentPage(1) }}
+              onChange={e => { setSearch(e.target.value) }}
             />
           </div>
           <CurrencySelector onRateChange={handleRateChange} />
@@ -88,7 +76,7 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
 
           <div className="filter-section">
             <h3>Category</h3>
-            <div className="filter-buttons-stack">
+            <div className="filter-buttons">
               {categories.map((cat) => (
                 <button
                   key={cat.label}
@@ -96,11 +84,6 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                   onClick={() => handleCategoryChange(cat.label)}
                 >
                   {cat.label}
-                  <span className="cat-count">
-                    {cat.label === 'All Cars'
-                      ? cars.length
-                      : cars.filter(c => c.category === cat.label).length}
-                  </span>
                 </button>
               ))}
             </div>
@@ -108,28 +91,28 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
 
           <div className="filter-section">
             <h3>Sort By</h3>
-            <div className="filter-buttons-stack">
+            <div className="filter-buttons">
               <button
                 className={`filter-sidebar-btn ${sortBy === 'default' ? 'active' : ''}`}
-                onClick={() => { setSortBy('default'); setCurrentPage(1) }}
+                onClick={() => { setSortBy('default') }}
               >
                 Default
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'popular' ? 'active' : ''}`}
-                onClick={() => { setSortBy('popular'); setCurrentPage(1) }}
+                onClick={() => { setSortBy('popular') }}
               >
                 Most Popular
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'price-asc' ? 'active' : ''}`}
-                onClick={() => { setSortBy('price-asc'); setCurrentPage(1) }}
+                onClick={() => { setSortBy('price-asc') }}
               >
                 ↑ Price: Low to High
               </button>
               <button
                 className={`filter-sidebar-btn ${sortBy === 'price-desc' ? 'active' : ''}`}
-                onClick={() => { setSortBy('price-desc'); setCurrentPage(1) }}
+                onClick={() => { setSortBy('price-desc') }}
               >
                ↓ Price: High to Low
               </button>
@@ -138,24 +121,20 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
         </aside>
 
         <main className="cars-main-content">
-          <div className="results-bar">
-            <span>{filtered.length} cars found</span>
-          </div>
-
-          <div className="cars-grid-pro">
-            {currentCars.map(car => (
+          <div className="cars-list">
+            {sorted.map(car => (
               <div
-                className="car-card-pro"
+                className="car-card"
                 key={car.id}
               >
                 <div className="car-card-hero">
-                  <div className="hero-badges">
+                  <div className="hero-info">
                     <span className={
                       bookings.find(b => b.carId === car.id && b.status === 'active')
-                        ? 'badge-avail unavailable'
+                        ? 'available-info unavailable'
                         : car.available
-                          ? 'badge-avail available'
-                          : 'badge-avail unavailable'
+                          ? 'available-info available'
+                          : 'available-info unavailable'
                     }>
                       {bookings.find(b => b.carId === car.id && b.status === 'active')
                         ? 'Not Available'
@@ -166,7 +145,6 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                     </span>
                   </div>
                   <img src={car.image} alt={car.model} className="car-img" />
-                  <div className="card-hero-gradient"></div>
                   <button
                     className={`fav-btn ${favorites.find(f => f.id === car.id) ? 'fav-active' : ''}`}
                     onClick={(e) => {
@@ -182,21 +160,20 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                   </button>
                 </div>
 
-                <div className="car-card-body" onClick={() => navigate(`/cars/${car.id}`)}>
-                  <span className="car-category-label">{car.category}</span>
+                <div className="car-card-body">
+                  <span className="car-category">{car.category}</span>
                   <h3 className="car-title">{car.brand} {car.model}</h3>
-
-                  <div className="car-specs-row">
-                    <div className="spec">
-                      <span className="spec-icon">👥</span>
+                  <div className="car-info">
+                    <div className="info">
+                      <span className="info-icon">👥</span>
                       {car.seats} seats
                     </div>
-                    <div className="spec">
-                      <span className="spec-icon">⛽</span>
+                    <div className="info">
+                      <span className="info-icon">⛽</span>
                       {car.fuel}
                     </div>
-                    <div className="spec">
-                      <span className="spec-icon">⚡</span>
+                    <div className="info">
+                      <span className="info-icon">⚡</span>
                       {car.horsepower} Hp
                     </div>
                   </div>
@@ -209,7 +186,7 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
                       </div>
                       <span className="price-period">per day</span>
                     </div>
-                    <button className="view-details-btn">
+                    <button className="view-details-btn" onClick={() => navigate(`/cars/${car.id}`)}>
                       View Details →
                     </button>
                   </div>
@@ -235,37 +212,6 @@ function CarsPage({ cars = [], favorites = [], toggleFavorite, deleteCar, bookin
               <p>No cars found in this category.</p>
             </div>
           )}
-
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button
-                className="page-btn"
-                onClick={() => setCurrentPage(prev => prev - 1)}
-                disabled={currentPage === 1}
-              >
-                ← Prev
-              </button>
-
-              {pageNumbers.map(page => (
-                <button
-                  key={page}
-                  className={`page-btn ${currentPage === page ? 'active' : ''}`}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button
-                className="page-btn"
-                onClick={() => setCurrentPage(prev => prev + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next →
-              </button>
-            </div>
-          )}
-
         </main>
       </div>
     </div>
