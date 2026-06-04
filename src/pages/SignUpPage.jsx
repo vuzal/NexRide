@@ -59,7 +59,6 @@ function SignUpPage() {
       <div className="auth-left">
         <div className="auth-left-content">
           <h1>Join <span>NexRide</span> Today</h1>
-          <p>Create your account and start renting or listing cars in minutes.</p>
           <div className="auth-features">
             <div className="auth-feature-item">
               <span>⚡</span>
@@ -80,8 +79,6 @@ function SignUpPage() {
       <div className="auth-right">
         <div className="auth-card">
           <h2>Create Account</h2>
-          <p className="auth-subtitle">Fill in your details to get started</p>
-
           {error && <div className="auth-error">{error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
@@ -118,6 +115,7 @@ function SignUpPage() {
                 value={form.phone}
                 onChange={handleChange}
                 placeholder="+994 50 000 00 00"
+                pattern="^(\+994|0)(50|51|55|60|70|77|99)[0-9]{7}$"
                 required
               />
             </div>
