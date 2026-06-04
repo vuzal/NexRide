@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import './Navbar.css'
 import cross from '../assets/cross.png'
 import hamburger from '../assets/hamburger.png'
-import nexRide_logo from '../assets/nexride_logo.png'
+import nexRide_logo from '../assets/nexRide_logo.png'
 
 function Navbar() {
   const navigate = useNavigate()
