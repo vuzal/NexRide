@@ -10,7 +10,6 @@ function FavoritesPage({ favorites = [], toggleFavorite }) {
         <div className="favorites-empty">
           <span className="empty-icon">🤍</span>
           <h2>No Favorites Yet</h2>
-          <p>Browse our fleet and save cars you love.</p>
           <button onClick={() => navigate('/cars')} className="browse-btn">
             Add Cars
           </button>
@@ -23,15 +22,14 @@ function FavoritesPage({ favorites = [], toggleFavorite }) {
     <div className="favorites-page">
       <div className="favorites-header">
         <div>
-          <p className="favorites-eyebrow">Your Collection</p>
-          <h2>Favorite Cars <span>({favorites.length})</span></h2>
+          <h2>Favorite Cars</h2>
         </div>
-        <button onClick={() => navigate('/cars')} className="back-to-fleet-btn">
-          ← Back to Fleet
+        <button onClick={() => navigate('/cars')} className="back-to-cars-btn">
+          ← Back to Cars
         </button>
       </div>
 
-      <div className="favorites-grid">
+      <div className="favorites-list">
         {favorites.map(car => (
           <div className="fav-card" key={car.id}>
             <div className="fav-card-image">
@@ -48,16 +46,16 @@ function FavoritesPage({ favorites = [], toggleFavorite }) {
               <span className="fav-category">{car.category}</span>
               <h3>{car.brand} {car.model}</h3>
 
-              <div className="fav-specs">
-                <div className="fav-spec">
+              <div className="fav-infos">
+                <div className="fav-info">
                   <span>👥</span>
                   {car.seats} seats
                 </div>
-                <div className="fav-spec">
+                <div className="fav-info">
                   <span>⛽</span>
                   {car.fuel}
                 </div>
-                <div className="fav-spec">
+                <div className="fav-info">
                   <span>⚡</span>
                   {car.horsepower} hp
                 </div>

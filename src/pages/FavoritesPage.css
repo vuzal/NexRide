@@ -56,14 +56,6 @@
   margin-bottom: 40px;
 }
 
-.favorites-eyebrow {
-  font-size: 12px;
-  color: #f5a623;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 600;
-  margin: 0 0 8px;
-}
 
 .favorites-header h2 {
   font-size: 32px;
@@ -78,7 +70,7 @@
   font-size: 24px;
 }
 
-.back-to-fleet-btn {
+.back-to-cars-btn {
   background: transparent;
   border: 1.5px solid #e2e8f0;
   padding: 10px 20px;
@@ -88,14 +80,13 @@
   cursor: pointer;
 }
 
-.back-to-fleet-btn:hover {
-  background-color: #f5a623;
+.back-to-cars-btn:hover {
   border-color: #f5a623;
 }
 
-.favorites-grid {
+.favorites-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -104,12 +95,10 @@
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   overflow: hidden;
-  transition: all 0.25s;
 }
 
 .fav-card:hover {
   border-color: #f5a623;
-  transform: translateY(-6px);
 }
 
 .fav-card-image {
@@ -129,7 +118,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -164,7 +153,7 @@
   margin: 6px 0 14px;
 }
 
-.fav-specs {
+.fav-infos {
   display: flex;
   gap: 14px;
   padding-bottom: 14px;
@@ -172,7 +161,7 @@
   margin-bottom: 14px;
 }
 
-.fav-spec {
+.fav-info {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -219,13 +208,21 @@
   background: #e09510;
 }
 
+@media (max-width: 992px) {
+  .favorites-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .favorites-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
-  .favorites-grid {
+
+  .favorites-list {
     grid-template-columns: 1fr;
   }
 }
+
