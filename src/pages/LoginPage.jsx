@@ -35,7 +35,6 @@ function LoginPage() {
       <div className="auth-left">
         <div className="auth-left-content">
           <h1>Welcome back to <span>NexRide</span></h1>
-          <p>Sign in to manage your bookings, listings, and more.</p>
           <div className="auth-features">
             <div className="auth-feature-item">
               <span>🚗</span>
@@ -56,8 +55,6 @@ function LoginPage() {
       <div className="auth-right">
         <div className="auth-card">
           <h2>Sign In</h2>
-          <p className="auth-subtitle">Enter your credentials to continue</p>
-
           {error && <div className="auth-error">{error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
