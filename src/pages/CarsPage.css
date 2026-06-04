@@ -118,13 +118,11 @@
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.25s ease;
   display: flex;
   flex-direction: column;
 }
 
 .car-card:hover {
-  transform: translateY(-6px);
   border-color: #f5a623;
 }
 
@@ -335,11 +333,6 @@
   border-color: #dc2626;
 }
 
-/* =========================================
-   RESPONSİV DİZAYN (CSS-in ən sonuna yaz)
-   ========================================= */
-
-/* 1. Planşet ekranları (992px-dən kiçik) */
 @media (max-width: 992px) {
   .cars-layout {
     flex-direction: column;

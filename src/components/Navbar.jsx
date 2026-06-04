@@ -5,7 +5,7 @@ import cross from '../assets/cross.png'
 import hamburger from '../assets/hamburger.png'
 import nexRide_logo from '../assets/nexride_logo.png'
 
-function Navbar({ favoritesCount, bookingsCount }) {
+function Navbar() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
