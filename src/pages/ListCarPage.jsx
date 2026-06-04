@@ -76,18 +76,16 @@ function ListCarPage({ addCar }) {
     return (
       <div className="listcar-page-container">
         <div className="success-preview-wrapper">
-          <div className="success-badge">✓</div>
+          <div className="success-icon">✓</div>
           <h2>Listing Successfully Submitted!</h2>
-          <p className="success-sub">Your vehicle has been added to NexRide</p>
 
-          <div className="live-preview-card">
+          <div className="preview-card">
             <div className="preview-car-image">
               <img src={form.image || 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80'} alt="Car Preview" />
             </div>
             <div className="preview-car-details">
               <div className="preview-title-row">
                 <h3>{form.brand} <span>{form.model}</span></h3>
-                <span className="preview-year">{form.year}</span>
               </div>
               <div className="preview-price">
                 <strong>${form.pricePerDay}</strong><span>/day</span>
@@ -95,8 +93,8 @@ function ListCarPage({ addCar }) {
             </div>
           </div>
 
-          <div className="success-action-buttons">
-            <button className="cta-all-cars" onClick={() => navigate('/cars')}>
+          <div className="success-buttons">
+            <button className="go-all-cars" onClick={() => navigate('/cars')}>
               Go to Cars
             </button>
 
@@ -111,11 +109,10 @@ function ListCarPage({ addCar }) {
       <div className="form-card-wrapper">
         <div className="form-header-title">
           <h2>Vehicle Information</h2>
-          <p>Please enter accurate details to ensure approval from our verification team.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="premium-car-list-form">
-          <div className="form-fields-grid">
+        <form onSubmit={handleSubmit} className="car-list-form">
+          <div className="form-fields-list">
 
             <div className="form-input-group">
               <label>Car Brand</label>
@@ -149,8 +146,7 @@ function ListCarPage({ addCar }) {
                 value={form.year}
                 onChange={handleChange}
                 placeholder="e.g. 2024"
-                min="2010"
-                max="2027"
+                max="2026"
                 required
               />
             </div>
@@ -162,8 +158,6 @@ function ListCarPage({ addCar }) {
                 <option value="Sedan">Sedan</option>
                 <option value="SUV">SUV</option>
                 <option value="Hatchback">Hatchback</option>
-                <option value="Convertible">Convertible</option>
-                <option value="Electric">Electric</option>
               </select>
             </div>
 

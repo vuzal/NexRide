@@ -31,14 +31,14 @@
   margin: 0;
 }
 
-.premium-car-list-form {
+.car-list-form {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
   padding: 36px;
 }
 
-.form-fields-grid {
+.form-fields-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
@@ -70,7 +70,6 @@
   font-size: 14px;
   outline: none;
   width: 100%;
-  transition: all 0.2s;
 }
 
 .form-input-group input:focus,
@@ -80,10 +79,6 @@
   background: #ffffff;
 }
 
-.form-input-group select option {
-  background: #ffffff;
-  color: #0f172a;
-}
 
 .form-textarea-group {
   display: flex;
@@ -107,12 +102,8 @@
   font-size: 15px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-.submit-listing-btn:hover {
-  transform: translateY(-2px);
-}
 
 .success-preview-wrapper {
   max-width: 560px;
@@ -120,7 +111,7 @@
   text-align: center;
 }
 
-.success-badge {
+.success-icon{
   width: 64px;
   height: 64px;
   background: #dcfce7;
@@ -141,13 +132,8 @@
   margin: 0 0 10px;
 }
 
-.success-sub {
-  color: #64748b;
-  font-size: 14px;
-    margin-bottom: 32px;
-}
 
-.live-preview-card {
+.preview-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -189,16 +175,11 @@
   margin: 0;
 }
 
-.preview-year {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  color: #64748b;
+
+.submit-listing-btn:hover {
+  background-color: #e09510;
+  
 }
-
-
 .preview-price {
   font-size: 14px;
   color: #94a3b8;
@@ -211,12 +192,12 @@
   margin-right: 2px;
 }
 
-.success-action-buttons {
+.success-buttons {
   display: flex;
   gap: 12px;
 }
 
-.cta-all-cars {
+.go-all-cars {
   width: 100%;
   background: #f5a623;
   color: #0f0f0f;
@@ -226,12 +207,6 @@
   font-size: 14px;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.cta-all-cars:hover {
-  background: #e09510;
-  transform: translateY(-3px);
 }
 
 .auth-check {
@@ -287,12 +262,10 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .auth-check-btn-signIn:hover {
   background: #e09510;
-  transform: translateY(-2px);
 }
 
 .auth-check-btn-createAccount {
@@ -304,7 +277,6 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .auth-check-btn-createAccount:hover {
@@ -315,13 +287,13 @@
   .listcar-page-container {
     padding: 32px 4%;
   }
-  .premium-car-list-form {
+  .car-list-form {
     padding: 24px;
   }
-  .form-fields-grid {
+  .form-fields-list {
     grid-template-columns: 1fr;
   }
-  .success-action-buttons {
+  .success-buttons {
     flex-direction: column;
   }
 }
