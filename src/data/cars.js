@@ -11,8 +11,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 203,
     available: true,
-    // Toyota Camry - silver sedan
-    image: "https://images.unsplash.com/photo-1685474650899-e37f80d7b00a?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/e0/6a/d1/e06ad1ba39c3a8292aa03a11000dec2f.jpg"
   },
   {
     id: 2,
@@ -26,8 +25,7 @@ const cars = [
     fuel: "Diesel",
     horsepower: 335,
     available: true,
-    // BMW X5 SUV
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/f6/98/29/f69829f29b6fa6e7267dcffb612d9e42.jpg"
   },
   {
     id: 3,
@@ -41,8 +39,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 255,
     available: true,
-    // Mercedes-Benz E-Class sedan
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/ff/9d/d4/ff9dd43f0f2b2984215b62d40eb54aae.jpg"
   },
   {
     id: 4,
@@ -56,8 +53,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 187,
     available: true,
-    // Hyundai Tucson SUV
-    image: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/01/fd/cb/01fdcb8ffcc8cc9d5b714fdf9adbe7df.jpg"
   },
   {
     id: 5,
@@ -71,8 +67,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 181,
     available: false,
-    // Kia Sportage SUV
-    image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/29/e4/7b/29e47ba07ea44561c8a6c9bb7ea2b262.jpg"
   },
   {
     id: 6,
@@ -86,8 +81,7 @@ const cars = [
     fuel: "Diesel",
     horsepower: 174,
     available: true,
-    // Volkswagen Passat sedan
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/4d/0f/42/4d0f42b38a031f3234c2e0bfb64e628b.jpg"
   },
   {
     id: 7,
@@ -101,8 +95,7 @@ const cars = [
     fuel: "Electric",
     horsepower: 283,
     available: true,
-    // Tesla Model 3
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/46/f3/71/46f371f8c118debcd3a9cab0f25c406a.jpg"
   },
   {
     id: 8,
@@ -116,8 +109,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 261,
     available: true,
-    // Audi A6 sedan
-    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/a9/82/52/a982521804be3023aed4443bf2e2c075.jpg"
   },
   {
     id: 9,
@@ -131,8 +123,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 310,
     available: true,
-    // Ford Mustang
-    image: "https://images.unsplash.com/photo-1584345604476-8cb23214878b?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/6e/db/3d/6edb3de0306a6af95fd6860b100fbe44.jpg"
   },
   {
     id: 10,
@@ -146,8 +137,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 158,
     available: false,
-    // Honda Civic hatchback
-    image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/73/a7/0e/73a70e9efebbfe96681bfc80709366d1.jpg"
   },
   {
     id: 11,
@@ -161,8 +151,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 261,
     available: true,
-    // Porsche Macan SUV
-    image: "https://images.unsplash.com/photo-1503376710926-2c1b82193b2a?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/a7/ad/06/a7ad0675ade2c489b72fee8933ae2b18.jpg"
   },
   {
     id: 12,
@@ -176,8 +165,7 @@ const cars = [
     fuel: "Diesel",
     horsepower: 355,
     available: true,
-    // Land Rover Range Rover
-    image: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/c9/57/25/c95725a0b0860e2ea580ca17950ed1b4.jpg"
   },
   {
     id: 13,
@@ -191,8 +179,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 275,
     available: true,
-    // Chevrolet Camaro muscle car
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/79/da/9d/79da9d8917aa59d3b438b0cf79e3d150.jpg"
   },
   {
     id: 14,
@@ -206,8 +193,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 187,
     available: true,
-    // Mazda CX-5 SUV
-    image: "https://images.unsplash.com/photo-1599912027806-fd8cb3151c79?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/e0/a6/68/e0a6682eb88c1f82b003111304867024.jpg"
   },
   {
     id: 15,
@@ -221,8 +207,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 295,
     available: false,
-    // Volvo XC90 7-seat SUV
-    image: "https://images.unsplash.com/photo-1620286828599-d410eb85b1a0?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/3d/d3/ed/3dd3ed39af9e25da78d14d8fd41e4647.jpg"
   },
   {
     id: 16,
@@ -236,8 +221,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 295,
     available: true,
-    // Lexus RX SUV
-    image: "https://images.unsplash.com/photo-1622186477895-f2af6a0f5a97?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/23/7a/eb/237aeb69c49e7af89f38e896e46e092c.jpg"
   },
   {
     id: 17,
@@ -251,8 +235,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 285,
     available: true,
-    // Jeep Wrangler off-road
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/27/7c/b9/277cb94182480bd3697a9bc2d33b9a9a.jpg"
   },
   {
     id: 18,
@@ -266,8 +249,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 188,
     available: true,
-    // Nissan Altima sedan
-    image: "https://images.unsplash.com/photo-1617531653332-bd46c16f4d68?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/cc/4f/a2/cc4fa2616adce954a0888ceee3c36abb.jpg"
   },
   {
     id: 19,
@@ -281,8 +263,7 @@ const cars = [
     fuel: "Petrol",
     horsepower: 147,
     available: false,
-    // Hyundai Elantra sedan
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/1200x/20/2d/3d/202d3dcca359714bb77606707880ab09.jpg"
   },
   {
     id: 20,
@@ -296,8 +277,7 @@ const cars = [
     fuel: "Electric",
     horsepower: 355,
     available: true,
-    // Audi e-tron electric SUV
-    image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80"
+    image: "https://i.pinimg.com/736x/2c/11/0d/2c110d34cf3fc4d9263d9fd508c93120.jpg"
   }
 ];
 
